@@ -1,0 +1,10 @@
+[{
+    "PotvrdaID": 1,
+    "IzvrsenaTransakcija": true,
+    "NarudzbinaID": 1
+
+}, {
+    "PotvrdaID": 2,
+    "IzvrsenaTransakcija": true,
+    "NarudzbinaID": 2
+}]

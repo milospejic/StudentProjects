@@ -1,0 +1,23 @@
+%dw 2.0
+
+type auto_8f89a1f5_8b1c_4f08_8a10_647b00f89488_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| TipSlikeID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+

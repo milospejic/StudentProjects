@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="6a910f83-dfec-409e-964c-d7c2e43f577f" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="518ddf41-2084-4feb-84f0-5b84d4b130ba" >
+		<db:generic-connection url="${db.URL}" driverClassName="${db.Driver}" user="${db.user}" password="${db.password}" />
+	</db:config>
+	<configuration-properties doc:name="Configuration properties" doc:id="8ee15c65-9068-4ea8-b8e4-8d441dd35f2b" file="config.yaml" />
+	<file:config name="File_Config_Chinese" doc:name="File Config" doc:id="b42cc3c8-64bd-4cc9-87f2-36f8abdfcfca" >
+		<file:connection workingDir="${file.chineseDir}" />
+	</file:config>
+	<file:config name="File_Config_Internal" doc:name="File Config" doc:id="8999c742-6ffc-442e-8d35-ac77bb3c694f" >
+		<file:connection workingDir="${file.internalDir}" />
+	</file:config>
+	
+	
+</mule>

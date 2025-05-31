@@ -1,0 +1,3122 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="narudzbine_json" format="json">
+      <types:shape format="weave" example="examples/narudzbine-example-1.json"><![CDATA[%dw 2.0
+
+type narudzbine_json = Array<{|  NarudzbinaID: Number {"typeId": "int"},   Datum: String,   Primarnost: String,   Kolicina: Number {"typeId": "int"},   ZaposleniID: Number {"typeId": "int"},   KupacID: Number {"typeId": "int"}|}> {"example": "[{\\\"NarudzbinaID\\\":1,\\\"Datum\\\":\\\"2021\\/03\\/05\\\",\\\"Primarnost\\\":\\\"A\\\",\\\"Kolicina\\\":58,\\\"ZaposleniID\\\":1,\\\"KupacID\\\":2},{\\\"NarudzbinaID\\\":2,\\\"Datum\\\":\\\"2021\\/11\\/05\\\",\\\"Primarnost\\\":\\\"A\\\",\\\"Kolicina\\\":105,\\\"ZaposleniID\\\":2,\\\"KupacID\\\":3}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="kupci_json" format="json">
+      <types:shape format="weave" example="examples/kupci-example-1.json"><![CDATA[%dw 2.0
+
+type kupci_json = Array<{|  KupacID: Number {"typeId": "int"},   ImeKupca: String,   PrezimeKupca: String,   Adresa: String,   JMBG: String,   Pol: String,   KontaktKupca: String,   Datum_rodjenja: String,   Aktivan: Boolean,   GotovinskoStanje: Number {"typeId": "double"}|}> {"example": "[{\\\"KupacID\\\":1,\\\"ImeKupca\\\":\\\"Milica\\\",\\\"PrezimeKupca\\\":\\\"Pantic\\\",\\\"Adresa\\\":\\\"Kneza Milosa 4\\\",\\\"JMBG\\\":\\\"1212000184532\\\",\\\"Pol\\\":\\\"zensko\\\",\\\"KontaktKupca\\\":\\\"0645898354\\\",\\\"Datum_rodjenja\\\":\\\"2001-12-12\\\",\\\"Aktivan\\\":true,\\\"GotovinskoStanje\\\":555268888.25},{\\\"KupacID\\\":2,\\\"ImeKupca\\\":\\\"Darko\\\",\\\"PrezimeKupca\\\":\\\"Popovic\\\",\\\"Adresa\\\":\\\"Nikole Pasica 29\\\",\\\"JMBG\\\":\\\"2001998184532\\\",\\\"Pol\\\":\\\"musko\\\",\\\"KontaktKupca\\\":\\\"0645508114\\\",\\\"Datum_rodjenja\\\":\\\"1998-01-20\\\",\\\"Aktivan\\\":true,\\\"GotovinskoStanje\\\":5400000.59}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="potvrde_json" format="json">
+      <types:shape format="weave" example="examples/potvrde-example.json"><![CDATA[%dw 2.0
+
+type potvrde_json = Array<{|  PotvrdaID: Number {"typeId": "int"},   IzvrsenaTransakcija: Boolean,   NarudzbinaID: Number {"typeId": "int"}|}> {"example": "[{\\\"PotvrdaID\\\":1,\\\"IzvrsenaTransakcija\\\":true,\\\"NarudzbinaID\\\":1},{\\\"PotvrdaID\\\":2,\\\"IzvrsenaTransakcija\\\":true,\\\"NarudzbinaID\\\":2}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="periodi_json" format="json">
+      <types:shape format="weave" example="examples/periodi-example.json"><![CDATA[%dw 2.0
+
+type periodi_json = Array<{|  PeriodID: Number {"typeId": "int"},   NazivPerioda: String|}> {"example": "[{\\\"PeriodID\\\":1,\\\"NazivPerioda\\\":\\\"Renesansa\\\"},{\\\"PeriodID\\\":2,\\\"NazivPerioda\\\":\\\"Barok\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="tipslike_json" format="json">
+      <types:shape format="weave" example="examples/tipslike-example.json"><![CDATA[%dw 2.0
+
+type tipslike_json = Array<{|  TipSlikeID: Number {"typeId": "int"},   NazivTipaSlike: String|}> {"example": "[{\\\"TipSlikeID\\\":1,\\\"NazivTipaSlike\\\":\\\"Akvarel\\\"},{\\\"TipSlikeID\\\":2,\\\"NazivTipaSlike\\\":\\\"UljanaSlika\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="slikari_json" format="json">
+      <types:shape format="weave" example="examples/slikar-example.json"><![CDATA[%dw 2.0
+
+type slikari_json = Array<{|  SlikarID: Number {"typeId": "int"},   ImeSlikara: String,   PrezimeSlikara: String,   Nacionalnost: String|}> {"example": "[{\\\"SlikarID\\\":1,\\\"ImeSlikara\\\":\\\"Leonardo\\\",\\\"PrezimeSlikara\\\":\\\"da Vinci\\\",\\\"Nacionalnost\\\":\\\"Italija\\\"},{\\\"SlikarID\\\":2,\\\"ImeSlikara\\\":\\\"Sandro\\\",\\\"PrezimeSlikara\\\":\\\"Botticelli\\\",\\\"Nacionalnost\\\":\\\"Italija\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="zaposleni_json" format="json">
+      <types:shape format="weave" example="examples/zaposleni-example.json"><![CDATA[%dw 2.0
+
+type zaposleni_json = Array<{|  ZaposleniID: Number {"typeId": "int"},   ImeZaposlenog: String,   PrezimeZaposlenog: String,   Adresa: String,   JMBG: String,   KontaktZaposlenog: String,   Lozinka: String|}> {"example": "[{\\\"ZaposleniID\\\":1,\\\"ImeZaposlenog\\\":\\\"Milan\\\",\\\"PrezimeZaposlenog\\\":\\\"Pavlovic\\\",\\\"Adresa\\\":\\\"Milosa Obilica 10\\\",\\\"JMBG\\\":\\\"1203997184532\\\",\\\"KontaktZaposlenog\\\":\\\"0645898654\\\",\\\"Lozinka\\\":\\\"0123uz98\\\"},{\\\"ZaposleniID\\\":2,\\\"ImeZaposlenog\\\":\\\"Dunja\\\",\\\"PrezimeZaposlenog\\\":\\\"Popovic\\\",\\\"Adresa\\\":\\\"Cara Lazara 20\\\",\\\"JMBG\\\":\\\"1203998188534\\\",\\\"KontaktZaposlenog\\\":\\\"0640008114\\\",\\\"Lozinka\\\":\\\"8726wt71\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="slika_json" format="json">
+      <types:shape format="weave" example="examples/slike-example.json"><![CDATA[%dw 2.0
+
+type slika_json = Array<{|  SlikaID: Number {"typeId": "int"},   Naziv_slike: String,   Cena: String,   PeriodID: Number {"typeId": "int"},   TipSlikeID: Number {"typeId": "int"},   SlikarID: Number {"typeId": "int"},   NarudzbinaID: Number {"typeId": "int"}|}> {"example": "[{\\\"SlikaID\\\":1,\\\"Naziv_slike\\\":\\\"Mona Lisa\\\",\\\"Cena\\\":\\\"1700000.78\\\",\\\"PeriodID\\\":1,\\\"TipSlikeID\\\":2,\\\"SlikarID\\\":1,\\\"NarudzbinaID\\\":1},{\\\"SlikaID\\\":2,\\\"Naziv_slike\\\":\\\"Seoba Srba\\\",\\\"Cena\\\":\\\"2500000.00\\\",\\\"PeriodID\\\":5,\\\"TipSlikeID\\\":2,\\\"SlikarID\\\":5,\\\"NarudzbinaID\\\":3}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_80b5a538-d554-440e-b97c-a509b224c91b_Input-Payload" format="java">
+      <types:shape format="weave" example="weave/autogenerated/80b5a538-d554-440e-b97c-a509b224c91b/Input-Payload.wev" autogeneratedOrigin="28207582-8fa0-40b1-9fc6-cc50ad70f541"><![CDATA[%dw 2.0
+
+type auto_80b5a538_d554_440e_b97c_a509b224c91b_Input_Payload = Any
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_80b5a538-d554-440e-b97c-a509b224c91b_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/80b5a538-d554-440e-b97c-a509b224c91b/Input-Attributes.wev" autogeneratedOrigin="28207582-8fa0-40b1-9fc6-cc50ad70f541"><![CDATA[%dw 2.0
+
+type auto_80b5a538_d554_440e_b97c_a509b224c91b_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| NarudzbinaID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_80b5a538-d554-440e-b97c-a509b224c91b_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/80b5a538-d554-440e-b97c-a509b224c91b/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="28207582-8fa0-40b1-9fc6-cc50ad70f541"><![CDATA[%dw 2.0
+
+type auto_80b5a538_d554_440e_b97c_a509b224c91b_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_80b5a538-d554-440e-b97c-a509b224c91b_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="28207582-8fa0-40b1-9fc6-cc50ad70f541"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_80b5a538-d554-440e-b97c-a509b224c91b_Output-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/80b5a538-d554-440e-b97c-a509b224c91b/Output-Payload.wev" autogeneratedOrigin="28207582-8fa0-40b1-9fc6-cc50ad70f541"><![CDATA[%dw 2.0
+
+type auto_80b5a538_d554_440e_b97c_a509b224c91b_Output_Payload = {
+  KupacID: Number, 
+  Datum: String, 
+  ZaposleniID: Number, 
+  NarudzbinaID?: Number, 
+  Primarnost: String, 
+  Kolicina: Number, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_80b5a538-d554-440e-b97c-a509b224c91b_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/80b5a538-d554-440e-b97c-a509b224c91b/Output-Attributes.wev" autogeneratedOrigin="28207582-8fa0-40b1-9fc6-cc50ad70f541"><![CDATA[%dw 2.0
+
+type auto_80b5a538_d554_440e_b97c_a509b224c91b_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_80b5a538-d554-440e-b97c-a509b224c91b_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/80b5a538-d554-440e-b97c-a509b224c91b/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="28207582-8fa0-40b1-9fc6-cc50ad70f541"><![CDATA[%dw 2.0
+
+type auto_80b5a538_d554_440e_b97c_a509b224c91b_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_80b5a538-d554-440e-b97c-a509b224c91b_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="28207582-8fa0-40b1-9fc6-cc50ad70f541"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_3061e1f4-2516-4c2d-8f9b-2b05f6466db1_Input-Payload" format="java">
+      <types:shape format="weave" example="weave/autogenerated/3061e1f4-2516-4c2d-8f9b-2b05f6466db1/Input-Payload.wev" autogeneratedOrigin="ee32f84a-b610-4190-b5eb-21eea2d2f249"><![CDATA[%dw 2.0
+
+type auto_3061e1f4_2516_4c2d_8f9b_2b05f6466db1_Input_Payload = Any
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_3061e1f4-2516-4c2d-8f9b-2b05f6466db1_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/3061e1f4-2516-4c2d-8f9b-2b05f6466db1/Input-Attributes.wev" autogeneratedOrigin="ee32f84a-b610-4190-b5eb-21eea2d2f249"><![CDATA[%dw 2.0
+
+type auto_3061e1f4_2516_4c2d_8f9b_2b05f6466db1_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| PeriodID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_3061e1f4-2516-4c2d-8f9b-2b05f6466db1_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/3061e1f4-2516-4c2d-8f9b-2b05f6466db1/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="ee32f84a-b610-4190-b5eb-21eea2d2f249"><![CDATA[%dw 2.0
+
+type auto_3061e1f4_2516_4c2d_8f9b_2b05f6466db1_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_3061e1f4-2516-4c2d-8f9b-2b05f6466db1_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="ee32f84a-b610-4190-b5eb-21eea2d2f249"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_3061e1f4-2516-4c2d-8f9b-2b05f6466db1_Output-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/3061e1f4-2516-4c2d-8f9b-2b05f6466db1/Output-Payload.wev" autogeneratedOrigin="ee32f84a-b610-4190-b5eb-21eea2d2f249"><![CDATA[%dw 2.0
+
+type auto_3061e1f4_2516_4c2d_8f9b_2b05f6466db1_Output_Payload = {
+  NazivPerioda: String, 
+  PeriodID?: Number, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_3061e1f4-2516-4c2d-8f9b-2b05f6466db1_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/3061e1f4-2516-4c2d-8f9b-2b05f6466db1/Output-Attributes.wev" autogeneratedOrigin="ee32f84a-b610-4190-b5eb-21eea2d2f249"><![CDATA[%dw 2.0
+
+type auto_3061e1f4_2516_4c2d_8f9b_2b05f6466db1_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_3061e1f4-2516-4c2d-8f9b-2b05f6466db1_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/3061e1f4-2516-4c2d-8f9b-2b05f6466db1/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="ee32f84a-b610-4190-b5eb-21eea2d2f249"><![CDATA[%dw 2.0
+
+type auto_3061e1f4_2516_4c2d_8f9b_2b05f6466db1_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_3061e1f4-2516-4c2d-8f9b-2b05f6466db1_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="ee32f84a-b610-4190-b5eb-21eea2d2f249"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_f5bc87f5-1a35-4303-936f-fae740fe2c39_Input-Payload" format="java">
+      <types:shape format="weave" example="weave/autogenerated/f5bc87f5-1a35-4303-936f-fae740fe2c39/Input-Payload.wev" autogeneratedOrigin="09f76b0e-3276-4ffd-83e5-e2a977efd9f9"><![CDATA[%dw 2.0
+
+type auto_f5bc87f5_1a35_4303_936f_fae740fe2c39_Input_Payload = Any
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_f5bc87f5-1a35-4303-936f-fae740fe2c39_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/f5bc87f5-1a35-4303-936f-fae740fe2c39/Input-Attributes.wev" autogeneratedOrigin="09f76b0e-3276-4ffd-83e5-e2a977efd9f9"><![CDATA[%dw 2.0
+
+type auto_f5bc87f5_1a35_4303_936f_fae740fe2c39_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| PotvrdaID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_f5bc87f5-1a35-4303-936f-fae740fe2c39_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/f5bc87f5-1a35-4303-936f-fae740fe2c39/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="09f76b0e-3276-4ffd-83e5-e2a977efd9f9"><![CDATA[%dw 2.0
+
+type auto_f5bc87f5_1a35_4303_936f_fae740fe2c39_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_f5bc87f5-1a35-4303-936f-fae740fe2c39_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="09f76b0e-3276-4ffd-83e5-e2a977efd9f9"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_f5bc87f5-1a35-4303-936f-fae740fe2c39_Output-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/f5bc87f5-1a35-4303-936f-fae740fe2c39/Output-Payload.wev" autogeneratedOrigin="09f76b0e-3276-4ffd-83e5-e2a977efd9f9"><![CDATA[%dw 2.0
+
+type auto_f5bc87f5_1a35_4303_936f_fae740fe2c39_Output_Payload = {
+  PotvrdaID?: Number, 
+  IzvrsenaTransakcija: Boolean, 
+  NarudzbinaID: Number, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_f5bc87f5-1a35-4303-936f-fae740fe2c39_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/f5bc87f5-1a35-4303-936f-fae740fe2c39/Output-Attributes.wev" autogeneratedOrigin="09f76b0e-3276-4ffd-83e5-e2a977efd9f9"><![CDATA[%dw 2.0
+
+type auto_f5bc87f5_1a35_4303_936f_fae740fe2c39_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_f5bc87f5-1a35-4303-936f-fae740fe2c39_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/f5bc87f5-1a35-4303-936f-fae740fe2c39/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="09f76b0e-3276-4ffd-83e5-e2a977efd9f9"><![CDATA[%dw 2.0
+
+type auto_f5bc87f5_1a35_4303_936f_fae740fe2c39_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_f5bc87f5-1a35-4303-936f-fae740fe2c39_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="09f76b0e-3276-4ffd-83e5-e2a977efd9f9"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_402bb5fa-f4b4-4e22-89c7-fefa7297d3f3_Input-Payload" format="java">
+      <types:shape format="weave" example="weave/autogenerated/402bb5fa-f4b4-4e22-89c7-fefa7297d3f3/Input-Payload.wev" autogeneratedOrigin="a83294fa-03ee-407e-a6d5-5dd6b60f2f22"><![CDATA[%dw 2.0
+
+type auto_402bb5fa_f4b4_4e22_89c7_fefa7297d3f3_Input_Payload = Any
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_402bb5fa-f4b4-4e22-89c7-fefa7297d3f3_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/402bb5fa-f4b4-4e22-89c7-fefa7297d3f3/Input-Attributes.wev" autogeneratedOrigin="a83294fa-03ee-407e-a6d5-5dd6b60f2f22"><![CDATA[%dw 2.0
+
+type auto_402bb5fa_f4b4_4e22_89c7_fefa7297d3f3_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| TipSlikeID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_402bb5fa-f4b4-4e22-89c7-fefa7297d3f3_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/402bb5fa-f4b4-4e22-89c7-fefa7297d3f3/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="a83294fa-03ee-407e-a6d5-5dd6b60f2f22"><![CDATA[%dw 2.0
+
+type auto_402bb5fa_f4b4_4e22_89c7_fefa7297d3f3_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_402bb5fa-f4b4-4e22-89c7-fefa7297d3f3_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="a83294fa-03ee-407e-a6d5-5dd6b60f2f22"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_402bb5fa-f4b4-4e22-89c7-fefa7297d3f3_Output-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/402bb5fa-f4b4-4e22-89c7-fefa7297d3f3/Output-Payload.wev" autogeneratedOrigin="a83294fa-03ee-407e-a6d5-5dd6b60f2f22"><![CDATA[%dw 2.0
+
+type auto_402bb5fa_f4b4_4e22_89c7_fefa7297d3f3_Output_Payload = {
+  TipSlikeID?: Number, 
+  NazivTipaSlike: String, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_402bb5fa-f4b4-4e22-89c7-fefa7297d3f3_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/402bb5fa-f4b4-4e22-89c7-fefa7297d3f3/Output-Attributes.wev" autogeneratedOrigin="a83294fa-03ee-407e-a6d5-5dd6b60f2f22"><![CDATA[%dw 2.0
+
+type auto_402bb5fa_f4b4_4e22_89c7_fefa7297d3f3_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_402bb5fa-f4b4-4e22-89c7-fefa7297d3f3_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/402bb5fa-f4b4-4e22-89c7-fefa7297d3f3/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="a83294fa-03ee-407e-a6d5-5dd6b60f2f22"><![CDATA[%dw 2.0
+
+type auto_402bb5fa_f4b4_4e22_89c7_fefa7297d3f3_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_402bb5fa-f4b4-4e22-89c7-fefa7297d3f3_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="a83294fa-03ee-407e-a6d5-5dd6b60f2f22"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_fa11ab68-fb3f-4fde-8eef-c82ac01c8f78_Input-Payload" format="java">
+      <types:shape format="weave" example="weave/autogenerated/fa11ab68-fb3f-4fde-8eef-c82ac01c8f78/Input-Payload.wev" autogeneratedOrigin="8ee5796a-4f9e-4712-a4fb-b497b2e33c44"><![CDATA[%dw 2.0
+
+type auto_fa11ab68_fb3f_4fde_8eef_c82ac01c8f78_Input_Payload = Any
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_fa11ab68-fb3f-4fde-8eef-c82ac01c8f78_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/fa11ab68-fb3f-4fde-8eef-c82ac01c8f78/Input-Attributes.wev" autogeneratedOrigin="8ee5796a-4f9e-4712-a4fb-b497b2e33c44"><![CDATA[%dw 2.0
+
+type auto_fa11ab68_fb3f_4fde_8eef_c82ac01c8f78_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| ZaposleniID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_fa11ab68-fb3f-4fde-8eef-c82ac01c8f78_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/fa11ab68-fb3f-4fde-8eef-c82ac01c8f78/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="8ee5796a-4f9e-4712-a4fb-b497b2e33c44"><![CDATA[%dw 2.0
+
+type auto_fa11ab68_fb3f_4fde_8eef_c82ac01c8f78_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_fa11ab68-fb3f-4fde-8eef-c82ac01c8f78_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="8ee5796a-4f9e-4712-a4fb-b497b2e33c44"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_fa11ab68-fb3f-4fde-8eef-c82ac01c8f78_Output-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/fa11ab68-fb3f-4fde-8eef-c82ac01c8f78/Output-Payload.wev" autogeneratedOrigin="8ee5796a-4f9e-4712-a4fb-b497b2e33c44"><![CDATA[%dw 2.0
+
+type auto_fa11ab68_fb3f_4fde_8eef_c82ac01c8f78_Output_Payload = {
+  ImeZaposlenog: String, 
+  ZaposleniID?: Number, 
+  PrezimeZaposlenog: String, 
+  Adresa: String, 
+  KontaktZaposlenog: String, 
+  JMBG: String, 
+  Lozinka: String, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_fa11ab68-fb3f-4fde-8eef-c82ac01c8f78_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/fa11ab68-fb3f-4fde-8eef-c82ac01c8f78/Output-Attributes.wev" autogeneratedOrigin="8ee5796a-4f9e-4712-a4fb-b497b2e33c44"><![CDATA[%dw 2.0
+
+type auto_fa11ab68_fb3f_4fde_8eef_c82ac01c8f78_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_fa11ab68-fb3f-4fde-8eef-c82ac01c8f78_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/fa11ab68-fb3f-4fde-8eef-c82ac01c8f78/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="8ee5796a-4f9e-4712-a4fb-b497b2e33c44"><![CDATA[%dw 2.0
+
+type auto_fa11ab68_fb3f_4fde_8eef_c82ac01c8f78_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_fa11ab68-fb3f-4fde-8eef-c82ac01c8f78_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="8ee5796a-4f9e-4712-a4fb-b497b2e33c44"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_3c710ca1-0936-46c3-b646-4ebee8027f0a_Input-Payload" format="java">
+      <types:shape format="weave" example="weave/autogenerated/3c710ca1-0936-46c3-b646-4ebee8027f0a/Input-Payload.wev" autogeneratedOrigin="72def00a-e157-492c-a376-48fa3b8fcd49"><![CDATA[%dw 2.0
+
+type auto_3c710ca1_0936_46c3_b646_4ebee8027f0a_Input_Payload = Any
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_3c710ca1-0936-46c3-b646-4ebee8027f0a_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/3c710ca1-0936-46c3-b646-4ebee8027f0a/Input-Attributes.wev" autogeneratedOrigin="72def00a-e157-492c-a376-48fa3b8fcd49"><![CDATA[%dw 2.0
+
+type auto_3c710ca1_0936_46c3_b646_4ebee8027f0a_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| SlikaID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_3c710ca1-0936-46c3-b646-4ebee8027f0a_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/3c710ca1-0936-46c3-b646-4ebee8027f0a/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="72def00a-e157-492c-a376-48fa3b8fcd49"><![CDATA[%dw 2.0
+
+type auto_3c710ca1_0936_46c3_b646_4ebee8027f0a_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_3c710ca1-0936-46c3-b646-4ebee8027f0a_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="72def00a-e157-492c-a376-48fa3b8fcd49"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_3c710ca1-0936-46c3-b646-4ebee8027f0a_Output-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/3c710ca1-0936-46c3-b646-4ebee8027f0a/Output-Payload.wev" autogeneratedOrigin="72def00a-e157-492c-a376-48fa3b8fcd49"><![CDATA[%dw 2.0
+
+type auto_3c710ca1_0936_46c3_b646_4ebee8027f0a_Output_Payload = {
+  Naziv_slike: String, 
+  TipSlikeID: Number, 
+  SlikarID: Number, 
+  NarudzbinaID: Number, 
+  Cena: Number, 
+  SlikaID?: Number, 
+  PeriodID: Number, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_3c710ca1-0936-46c3-b646-4ebee8027f0a_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/3c710ca1-0936-46c3-b646-4ebee8027f0a/Output-Attributes.wev" autogeneratedOrigin="72def00a-e157-492c-a376-48fa3b8fcd49"><![CDATA[%dw 2.0
+
+type auto_3c710ca1_0936_46c3_b646_4ebee8027f0a_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_3c710ca1-0936-46c3-b646-4ebee8027f0a_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/3c710ca1-0936-46c3-b646-4ebee8027f0a/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="72def00a-e157-492c-a376-48fa3b8fcd49"><![CDATA[%dw 2.0
+
+type auto_3c710ca1_0936_46c3_b646_4ebee8027f0a_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_3c710ca1-0936-46c3-b646-4ebee8027f0a_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="72def00a-e157-492c-a376-48fa3b8fcd49"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_b3b3e83b-8ccc-488c-b699-f220eacd48b7_Input-Payload" format="java">
+      <types:shape format="weave" example="weave/autogenerated/b3b3e83b-8ccc-488c-b699-f220eacd48b7/Input-Payload.wev" autogeneratedOrigin="1e08d46c-67c6-428e-bf1a-5bd4cb757980"><![CDATA[%dw 2.0
+
+type auto_b3b3e83b_8ccc_488c_b699_f220eacd48b7_Input_Payload = Any
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_b3b3e83b-8ccc-488c-b699-f220eacd48b7_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/b3b3e83b-8ccc-488c-b699-f220eacd48b7/Input-Attributes.wev" autogeneratedOrigin="1e08d46c-67c6-428e-bf1a-5bd4cb757980"><![CDATA[%dw 2.0
+
+type auto_b3b3e83b_8ccc_488c_b699_f220eacd48b7_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| SlikarID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_b3b3e83b-8ccc-488c-b699-f220eacd48b7_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/b3b3e83b-8ccc-488c-b699-f220eacd48b7/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="1e08d46c-67c6-428e-bf1a-5bd4cb757980"><![CDATA[%dw 2.0
+
+type auto_b3b3e83b_8ccc_488c_b699_f220eacd48b7_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_b3b3e83b-8ccc-488c-b699-f220eacd48b7_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="1e08d46c-67c6-428e-bf1a-5bd4cb757980"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_b3b3e83b-8ccc-488c-b699-f220eacd48b7_Output-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/b3b3e83b-8ccc-488c-b699-f220eacd48b7/Output-Payload.wev" autogeneratedOrigin="1e08d46c-67c6-428e-bf1a-5bd4cb757980"><![CDATA[%dw 2.0
+
+type auto_b3b3e83b_8ccc_488c_b699_f220eacd48b7_Output_Payload = {
+  ImeSlikara: String, 
+  PrezimeSlikara: String, 
+  SlikarID?: Number, 
+  Nacionalnost: String, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_b3b3e83b-8ccc-488c-b699-f220eacd48b7_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/b3b3e83b-8ccc-488c-b699-f220eacd48b7/Output-Attributes.wev" autogeneratedOrigin="1e08d46c-67c6-428e-bf1a-5bd4cb757980"><![CDATA[%dw 2.0
+
+type auto_b3b3e83b_8ccc_488c_b699_f220eacd48b7_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_b3b3e83b-8ccc-488c-b699-f220eacd48b7_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/b3b3e83b-8ccc-488c-b699-f220eacd48b7/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="1e08d46c-67c6-428e-bf1a-5bd4cb757980"><![CDATA[%dw 2.0
+
+type auto_b3b3e83b_8ccc_488c_b699_f220eacd48b7_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_b3b3e83b-8ccc-488c-b699-f220eacd48b7_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="1e08d46c-67c6-428e-bf1a-5bd4cb757980"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="kapac_json" format="json">
+      <types:shape format="weave" example="examples/kupac-example.json"><![CDATA[%dw 2.0
+
+type kapac_json = {|
+  KupacID: Number {"typeId": "int"}, 
+  ImeKupca: String, 
+  PrezimeKupca: String, 
+  Adresa: String, 
+  JMBG: String, 
+  Pol: String, 
+  KontaktKupca: String, 
+  Datum_rodjenja: String, 
+  Aktivan: Boolean, 
+  GotovinskoStanje: Number {"typeId": "double"}
+|} {"example": "{\\\"KupacID\\\":1,\\\"ImeKupca\\\":\\\"Milica\\\",\\\"PrezimeKupca\\\":\\\"Pantic\\\",\\\"Adresa\\\":\\\"Kneza Milosa 4\\\",\\\"JMBG\\\":\\\"1212000184532\\\",\\\"Pol\\\":\\\"zensko\\\",\\\"KontaktKupca\\\":\\\"0645898354\\\",\\\"Datum_rodjenja\\\":\\\"2001\\/12\\/12\\\",\\\"Aktivan\\\":true,\\\"GotovinskoStanje\\\":555268888.25}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="kupac_noID_json" format="json">
+      <types:shape format="weave" example="examples/kupac-noID-example.JSON"><![CDATA[%dw 2.0
+
+type kupac_noID_json = {|
+  ImeKupca: String, 
+  PrezimeKupca: String, 
+  Adresa: String, 
+  JMBG: String, 
+  Pol: String, 
+  KontaktKupca: String, 
+  Datum_rodjenja: String, 
+  Aktivan: Boolean, 
+  GotovinskoStanje: Number {"typeId": "double"}
+|} {"example": "{\\\"ImeKupca\\\":\\\"Milica\\\",\\\"PrezimeKupca\\\":\\\"Pantic\\\",\\\"Adresa\\\":\\\"Kneza Milosa 4\\\",\\\"JMBG\\\":\\\"1212000184532\\\",\\\"Pol\\\":\\\"zensko\\\",\\\"KontaktKupca\\\":\\\"0645898354\\\",\\\"Datum_rodjenja\\\":\\\"2001\\/12\\/12\\\",\\\"Aktivan\\\":true,\\\"GotovinskoStanje\\\":555268888.25}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_1627b414-83ba-4da9-968b-69a8ec91183c_Input-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/1627b414-83ba-4da9-968b-69a8ec91183c/Input-Payload.wev" autogeneratedOrigin="e9e9e752-dcfc-490a-afd3-24cd6c9bde3b"><![CDATA[%dw 2.0
+
+type auto_1627b414_83ba_4da9_968b_69a8ec91183c_Input_Payload = {
+  KupacID?: Number, 
+  Datum_rodjenja: String, 
+  Adresa: String, 
+  KontaktKupca: String, 
+  JMBG: String, 
+  Aktivan: Boolean, 
+  Pol: String, 
+  ImeKupca: String, 
+  GotovinskoStanje: Number, 
+  PrezimeKupca: String, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_1627b414-83ba-4da9-968b-69a8ec91183c_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/1627b414-83ba-4da9-968b-69a8ec91183c/Input-Attributes.wev" autogeneratedOrigin="e9e9e752-dcfc-490a-afd3-24cd6c9bde3b"><![CDATA[%dw 2.0
+
+type auto_1627b414_83ba_4da9_968b_69a8ec91183c_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {|  |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_1627b414-83ba-4da9-968b-69a8ec91183c_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/1627b414-83ba-4da9-968b-69a8ec91183c/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="e9e9e752-dcfc-490a-afd3-24cd6c9bde3b"><![CDATA[%dw 2.0
+
+type auto_1627b414_83ba_4da9_968b_69a8ec91183c_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_1627b414-83ba-4da9-968b-69a8ec91183c_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="e9e9e752-dcfc-490a-afd3-24cd6c9bde3b"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_1627b414-83ba-4da9-968b-69a8ec91183c_Output-Payload" format="json">
+      <types:shape format="weave" autogeneratedOrigin="e9e9e752-dcfc-490a-afd3-24cd6c9bde3b"><![CDATA[%dw 2.0
+
+type auto_1627b414_83ba_4da9_968b_69a8ec91183c_Output_Payload = {| message?: String |} {"example": "{\\\"message\\\":\\\"Kupac added!(but not really)\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_1627b414-83ba-4da9-968b-69a8ec91183c_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/1627b414-83ba-4da9-968b-69a8ec91183c/Output-Attributes.wev" autogeneratedOrigin="e9e9e752-dcfc-490a-afd3-24cd6c9bde3b"><![CDATA[%dw 2.0
+
+type auto_1627b414_83ba_4da9_968b_69a8ec91183c_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_1627b414-83ba-4da9-968b-69a8ec91183c_Output-Variables-Kupac" format="java">
+      <types:shape format="weave" example="weave/autogenerated/1627b414-83ba-4da9-968b-69a8ec91183c/Output-Variables-Kupac.wev" autogeneratedOrigin="e9e9e752-dcfc-490a-afd3-24cd6c9bde3b"><![CDATA[%dw 2.0
+
+type auto_1627b414_83ba_4da9_968b_69a8ec91183c_Output_Variables_Kupac = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_1627b414-83ba-4da9-968b-69a8ec91183c_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/1627b414-83ba-4da9-968b-69a8ec91183c/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="e9e9e752-dcfc-490a-afd3-24cd6c9bde3b"><![CDATA[%dw 2.0
+
+type auto_1627b414_83ba_4da9_968b_69a8ec91183c_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_1627b414-83ba-4da9-968b-69a8ec91183c_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="e9e9e752-dcfc-490a-afd3-24cd6c9bde3b"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Input-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/da6dd0fa-cfff-4dd0-8534-994e6f3b13ab/Input-Payload.wev" autogeneratedOrigin="b34eae0a-b5e6-42d9-ad4d-b5b0d7ae2fe4"><![CDATA[%dw 2.0
+
+type auto_da6dd0fa_cfff_4dd0_8534_994e6f3b13ab_Input_Payload = {
+  ImeZaposlenog: String, 
+  ZaposleniID?: Number, 
+  PrezimeZaposlenog: String, 
+  Adresa: String, 
+  KontaktZaposlenog: String, 
+  JMBG: String, 
+  Lozinka: String, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/da6dd0fa-cfff-4dd0-8534-994e6f3b13ab/Input-Attributes.wev" autogeneratedOrigin="b34eae0a-b5e6-42d9-ad4d-b5b0d7ae2fe4"><![CDATA[%dw 2.0
+
+type auto_da6dd0fa_cfff_4dd0_8534_994e6f3b13ab_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {|  |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/da6dd0fa-cfff-4dd0-8534-994e6f3b13ab/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="b34eae0a-b5e6-42d9-ad4d-b5b0d7ae2fe4"><![CDATA[%dw 2.0
+
+type auto_da6dd0fa_cfff_4dd0_8534_994e6f3b13ab_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="b34eae0a-b5e6-42d9-ad4d-b5b0d7ae2fe4"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Output-Payload" format="json">
+      <types:shape format="weave" autogeneratedOrigin="b34eae0a-b5e6-42d9-ad4d-b5b0d7ae2fe4"><![CDATA[%dw 2.0
+
+type auto_da6dd0fa_cfff_4dd0_8534_994e6f3b13ab_Output_Payload = {| message?: String |} {"example": "{\\\"message\\\":\\\"Zaposleni added!(but not really)\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/da6dd0fa-cfff-4dd0-8534-994e6f3b13ab/Output-Attributes.wev" autogeneratedOrigin="b34eae0a-b5e6-42d9-ad4d-b5b0d7ae2fe4"><![CDATA[%dw 2.0
+
+type auto_da6dd0fa_cfff_4dd0_8534_994e6f3b13ab_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Output-Variables-Zaposleni" format="java">
+      <types:shape format="weave" example="weave/autogenerated/da6dd0fa-cfff-4dd0-8534-994e6f3b13ab/Output-Variables-Zaposleni.wev" autogeneratedOrigin="b34eae0a-b5e6-42d9-ad4d-b5b0d7ae2fe4"><![CDATA[%dw 2.0
+
+type auto_da6dd0fa_cfff_4dd0_8534_994e6f3b13ab_Output_Variables_Zaposleni = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/da6dd0fa-cfff-4dd0-8534-994e6f3b13ab/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="b34eae0a-b5e6-42d9-ad4d-b5b0d7ae2fe4"><![CDATA[%dw 2.0
+
+type auto_da6dd0fa_cfff_4dd0_8534_994e6f3b13ab_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="b34eae0a-b5e6-42d9-ad4d-b5b0d7ae2fe4"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Input-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/40b5f0e9-0659-4a6d-a203-26cb05d3b10d/Input-Payload.wev" autogeneratedOrigin="a847ac0b-36eb-49c9-b1d4-eb5a3cad91ed"><![CDATA[%dw 2.0
+
+type auto_40b5f0e9_0659_4a6d_a203_26cb05d3b10d_Input_Payload = {
+  TipSlikeID?: Number, 
+  NazivTipaSlike: String, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/40b5f0e9-0659-4a6d-a203-26cb05d3b10d/Input-Attributes.wev" autogeneratedOrigin="a847ac0b-36eb-49c9-b1d4-eb5a3cad91ed"><![CDATA[%dw 2.0
+
+type auto_40b5f0e9_0659_4a6d_a203_26cb05d3b10d_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {|  |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/40b5f0e9-0659-4a6d-a203-26cb05d3b10d/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="a847ac0b-36eb-49c9-b1d4-eb5a3cad91ed"><![CDATA[%dw 2.0
+
+type auto_40b5f0e9_0659_4a6d_a203_26cb05d3b10d_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="a847ac0b-36eb-49c9-b1d4-eb5a3cad91ed"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Output-Payload" format="json">
+      <types:shape format="weave" autogeneratedOrigin="a847ac0b-36eb-49c9-b1d4-eb5a3cad91ed"><![CDATA[%dw 2.0
+
+type auto_40b5f0e9_0659_4a6d_a203_26cb05d3b10d_Output_Payload = {| message?: String |} {"example": "{\\\"message\\\":\\\"TipSlike added!(but not really)\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/40b5f0e9-0659-4a6d-a203-26cb05d3b10d/Output-Attributes.wev" autogeneratedOrigin="a847ac0b-36eb-49c9-b1d4-eb5a3cad91ed"><![CDATA[%dw 2.0
+
+type auto_40b5f0e9_0659_4a6d_a203_26cb05d3b10d_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Output-Variables-TipSlike" format="java">
+      <types:shape format="weave" example="weave/autogenerated/40b5f0e9-0659-4a6d-a203-26cb05d3b10d/Output-Variables-TipSlike.wev" autogeneratedOrigin="a847ac0b-36eb-49c9-b1d4-eb5a3cad91ed"><![CDATA[%dw 2.0
+
+type auto_40b5f0e9_0659_4a6d_a203_26cb05d3b10d_Output_Variables_TipSlike = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/40b5f0e9-0659-4a6d-a203-26cb05d3b10d/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="a847ac0b-36eb-49c9-b1d4-eb5a3cad91ed"><![CDATA[%dw 2.0
+
+type auto_40b5f0e9_0659_4a6d_a203_26cb05d3b10d_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="a847ac0b-36eb-49c9-b1d4-eb5a3cad91ed"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Input-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/0a353d2b-8c70-499d-acde-773ce97e3782/Input-Payload.wev" autogeneratedOrigin="035a2313-c021-4b07-a2a2-3c38bef08198"><![CDATA[%dw 2.0
+
+type auto_0a353d2b_8c70_499d_acde_773ce97e3782_Input_Payload = {
+  Naziv_slike: String, 
+  TipSlikeID: Number, 
+  SlikarID: Number, 
+  NarudzbinaID: Number, 
+  Cena: Number, 
+  SlikaID?: Number, 
+  PeriodID: Number, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/0a353d2b-8c70-499d-acde-773ce97e3782/Input-Attributes.wev" autogeneratedOrigin="035a2313-c021-4b07-a2a2-3c38bef08198"><![CDATA[%dw 2.0
+
+type auto_0a353d2b_8c70_499d_acde_773ce97e3782_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {|  |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/0a353d2b-8c70-499d-acde-773ce97e3782/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="035a2313-c021-4b07-a2a2-3c38bef08198"><![CDATA[%dw 2.0
+
+type auto_0a353d2b_8c70_499d_acde_773ce97e3782_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="035a2313-c021-4b07-a2a2-3c38bef08198"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Output-Payload" format="json">
+      <types:shape format="weave" autogeneratedOrigin="035a2313-c021-4b07-a2a2-3c38bef08198"><![CDATA[%dw 2.0
+
+type auto_0a353d2b_8c70_499d_acde_773ce97e3782_Output_Payload = {| message?: String |} {"example": "{\\\"message\\\":\\\"Slika added!(but not really)\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/0a353d2b-8c70-499d-acde-773ce97e3782/Output-Attributes.wev" autogeneratedOrigin="035a2313-c021-4b07-a2a2-3c38bef08198"><![CDATA[%dw 2.0
+
+type auto_0a353d2b_8c70_499d_acde_773ce97e3782_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Output-Variables-Slika" format="java">
+      <types:shape format="weave" example="weave/autogenerated/0a353d2b-8c70-499d-acde-773ce97e3782/Output-Variables-Slika.wev" autogeneratedOrigin="035a2313-c021-4b07-a2a2-3c38bef08198"><![CDATA[%dw 2.0
+
+type auto_0a353d2b_8c70_499d_acde_773ce97e3782_Output_Variables_Slika = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/0a353d2b-8c70-499d-acde-773ce97e3782/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="035a2313-c021-4b07-a2a2-3c38bef08198"><![CDATA[%dw 2.0
+
+type auto_0a353d2b_8c70_499d_acde_773ce97e3782_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="035a2313-c021-4b07-a2a2-3c38bef08198"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_97893480-2844-41c1-bcc9-590d1c489064_Input-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/97893480-2844-41c1-bcc9-590d1c489064/Input-Payload.wev" autogeneratedOrigin="6a76f7ad-b50c-4a05-9ee6-f10b4d13ea2d"><![CDATA[%dw 2.0
+
+type auto_97893480_2844_41c1_bcc9_590d1c489064_Input_Payload = {
+  PotvrdaID?: Number, 
+  IzvrsenaTransakcija: Boolean, 
+  NarudzbinaID: Number, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_97893480-2844-41c1-bcc9-590d1c489064_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/97893480-2844-41c1-bcc9-590d1c489064/Input-Attributes.wev" autogeneratedOrigin="6a76f7ad-b50c-4a05-9ee6-f10b4d13ea2d"><![CDATA[%dw 2.0
+
+type auto_97893480_2844_41c1_bcc9_590d1c489064_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {|  |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_97893480-2844-41c1-bcc9-590d1c489064_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/97893480-2844-41c1-bcc9-590d1c489064/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="6a76f7ad-b50c-4a05-9ee6-f10b4d13ea2d"><![CDATA[%dw 2.0
+
+type auto_97893480_2844_41c1_bcc9_590d1c489064_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_97893480-2844-41c1-bcc9-590d1c489064_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="6a76f7ad-b50c-4a05-9ee6-f10b4d13ea2d"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_97893480-2844-41c1-bcc9-590d1c489064_Output-Payload" format="json">
+      <types:shape format="weave" autogeneratedOrigin="6a76f7ad-b50c-4a05-9ee6-f10b4d13ea2d"><![CDATA[%dw 2.0
+
+type auto_97893480_2844_41c1_bcc9_590d1c489064_Output_Payload = {| message?: String |} {"example": "{\\\"message\\\":\\\"Potvrda added!(but not really)\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_97893480-2844-41c1-bcc9-590d1c489064_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/97893480-2844-41c1-bcc9-590d1c489064/Output-Attributes.wev" autogeneratedOrigin="6a76f7ad-b50c-4a05-9ee6-f10b4d13ea2d"><![CDATA[%dw 2.0
+
+type auto_97893480_2844_41c1_bcc9_590d1c489064_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_97893480-2844-41c1-bcc9-590d1c489064_Output-Variables-Potvrda" format="java">
+      <types:shape format="weave" example="weave/autogenerated/97893480-2844-41c1-bcc9-590d1c489064/Output-Variables-Potvrda.wev" autogeneratedOrigin="6a76f7ad-b50c-4a05-9ee6-f10b4d13ea2d"><![CDATA[%dw 2.0
+
+type auto_97893480_2844_41c1_bcc9_590d1c489064_Output_Variables_Potvrda = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_97893480-2844-41c1-bcc9-590d1c489064_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/97893480-2844-41c1-bcc9-590d1c489064/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="6a76f7ad-b50c-4a05-9ee6-f10b4d13ea2d"><![CDATA[%dw 2.0
+
+type auto_97893480_2844_41c1_bcc9_590d1c489064_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_97893480-2844-41c1-bcc9-590d1c489064_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="6a76f7ad-b50c-4a05-9ee6-f10b4d13ea2d"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Input-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/e4e292d0-55b3-48a0-a088-be95d8b13335/Input-Payload.wev" autogeneratedOrigin="b1f49b68-27e3-4d91-82fc-ad2d10911563"><![CDATA[%dw 2.0
+
+type auto_e4e292d0_55b3_48a0_a088_be95d8b13335_Input_Payload = {
+  NazivPerioda: String, 
+  PeriodID?: Number, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/e4e292d0-55b3-48a0-a088-be95d8b13335/Input-Attributes.wev" autogeneratedOrigin="b1f49b68-27e3-4d91-82fc-ad2d10911563"><![CDATA[%dw 2.0
+
+type auto_e4e292d0_55b3_48a0_a088_be95d8b13335_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {|  |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/e4e292d0-55b3-48a0-a088-be95d8b13335/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="b1f49b68-27e3-4d91-82fc-ad2d10911563"><![CDATA[%dw 2.0
+
+type auto_e4e292d0_55b3_48a0_a088_be95d8b13335_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="b1f49b68-27e3-4d91-82fc-ad2d10911563"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Output-Payload" format="json">
+      <types:shape format="weave" autogeneratedOrigin="b1f49b68-27e3-4d91-82fc-ad2d10911563"><![CDATA[%dw 2.0
+
+type auto_e4e292d0_55b3_48a0_a088_be95d8b13335_Output_Payload = {| message?: String |} {"example": "{\\\"message\\\":\\\"Period added!(but not really)\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/e4e292d0-55b3-48a0-a088-be95d8b13335/Output-Attributes.wev" autogeneratedOrigin="b1f49b68-27e3-4d91-82fc-ad2d10911563"><![CDATA[%dw 2.0
+
+type auto_e4e292d0_55b3_48a0_a088_be95d8b13335_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Output-Variables-Period" format="java">
+      <types:shape format="weave" example="weave/autogenerated/e4e292d0-55b3-48a0-a088-be95d8b13335/Output-Variables-Period.wev" autogeneratedOrigin="b1f49b68-27e3-4d91-82fc-ad2d10911563"><![CDATA[%dw 2.0
+
+type auto_e4e292d0_55b3_48a0_a088_be95d8b13335_Output_Variables_Period = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/e4e292d0-55b3-48a0-a088-be95d8b13335/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="b1f49b68-27e3-4d91-82fc-ad2d10911563"><![CDATA[%dw 2.0
+
+type auto_e4e292d0_55b3_48a0_a088_be95d8b13335_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="b1f49b68-27e3-4d91-82fc-ad2d10911563"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Input-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/b84314f5-cf80-408d-9359-24ea76571c1b/Input-Payload.wev" autogeneratedOrigin="72f6fdc2-74a8-4d3d-8a71-32866ea488b3"><![CDATA[%dw 2.0
+
+type auto_b84314f5_cf80_408d_9359_24ea76571c1b_Input_Payload = {
+  KupacID: Number, 
+  Datum: String, 
+  ZaposleniID: Number, 
+  NarudzbinaID?: Number, 
+  Primarnost: String, 
+  Kolicina: Number, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/b84314f5-cf80-408d-9359-24ea76571c1b/Input-Attributes.wev" autogeneratedOrigin="72f6fdc2-74a8-4d3d-8a71-32866ea488b3"><![CDATA[%dw 2.0
+
+type auto_b84314f5_cf80_408d_9359_24ea76571c1b_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {|  |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/b84314f5-cf80-408d-9359-24ea76571c1b/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="72f6fdc2-74a8-4d3d-8a71-32866ea488b3"><![CDATA[%dw 2.0
+
+type auto_b84314f5_cf80_408d_9359_24ea76571c1b_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="72f6fdc2-74a8-4d3d-8a71-32866ea488b3"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Output-Payload" format="json">
+      <types:shape format="weave" autogeneratedOrigin="72f6fdc2-74a8-4d3d-8a71-32866ea488b3"><![CDATA[%dw 2.0
+
+type auto_b84314f5_cf80_408d_9359_24ea76571c1b_Output_Payload = {| message?: String |} {"example": "{\\\"message\\\":\\\"Narudzbina added!(but not really)\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/b84314f5-cf80-408d-9359-24ea76571c1b/Output-Attributes.wev" autogeneratedOrigin="72f6fdc2-74a8-4d3d-8a71-32866ea488b3"><![CDATA[%dw 2.0
+
+type auto_b84314f5_cf80_408d_9359_24ea76571c1b_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Output-Variables-Narudzbina" format="java">
+      <types:shape format="weave" example="weave/autogenerated/b84314f5-cf80-408d-9359-24ea76571c1b/Output-Variables-Narudzbina.wev" autogeneratedOrigin="72f6fdc2-74a8-4d3d-8a71-32866ea488b3"><![CDATA[%dw 2.0
+
+type auto_b84314f5_cf80_408d_9359_24ea76571c1b_Output_Variables_Narudzbina = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/b84314f5-cf80-408d-9359-24ea76571c1b/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="72f6fdc2-74a8-4d3d-8a71-32866ea488b3"><![CDATA[%dw 2.0
+
+type auto_b84314f5_cf80_408d_9359_24ea76571c1b_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="72f6fdc2-74a8-4d3d-8a71-32866ea488b3"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Input-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/9a16e7df-8b2a-4331-8d59-5b9b5e379597/Input-Payload.wev" autogeneratedOrigin="cca5273c-4fa7-4872-8f58-ddb252494c63"><![CDATA[%dw 2.0
+
+type auto_9a16e7df_8b2a_4331_8d59_5b9b5e379597_Input_Payload = {
+  KupacID?: Number, 
+  Datum_rodjenja: String, 
+  Adresa: String, 
+  KontaktKupca: String, 
+  JMBG: String, 
+  Aktivan: Boolean, 
+  Pol: String, 
+  ImeKupca: String, 
+  GotovinskoStanje: Number, 
+  PrezimeKupca: String, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/9a16e7df-8b2a-4331-8d59-5b9b5e379597/Input-Attributes.wev" autogeneratedOrigin="cca5273c-4fa7-4872-8f58-ddb252494c63"><![CDATA[%dw 2.0
+
+type auto_9a16e7df_8b2a_4331_8d59_5b9b5e379597_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| KupacID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/9a16e7df-8b2a-4331-8d59-5b9b5e379597/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="cca5273c-4fa7-4872-8f58-ddb252494c63"><![CDATA[%dw 2.0
+
+type auto_9a16e7df_8b2a_4331_8d59_5b9b5e379597_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="cca5273c-4fa7-4872-8f58-ddb252494c63"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Output-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/9a16e7df-8b2a-4331-8d59-5b9b5e379597/Output-Payload.wev" autogeneratedOrigin="cca5273c-4fa7-4872-8f58-ddb252494c63"><![CDATA[%dw 2.0
+
+type auto_9a16e7df_8b2a_4331_8d59_5b9b5e379597_Output_Payload = {
+  KupacID?: Number, 
+  Datum_rodjenja: String, 
+  Adresa: String, 
+  KontaktKupca: String, 
+  JMBG: String, 
+  Aktivan: Boolean, 
+  Pol: String, 
+  ImeKupca: String, 
+  GotovinskoStanje: Number, 
+  PrezimeKupca: String, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/9a16e7df-8b2a-4331-8d59-5b9b5e379597/Output-Attributes.wev" autogeneratedOrigin="cca5273c-4fa7-4872-8f58-ddb252494c63"><![CDATA[%dw 2.0
+
+type auto_9a16e7df_8b2a_4331_8d59_5b9b5e379597_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Output-Variables-Kupac" format="java">
+      <types:shape format="raml" autogeneratedOrigin="cca5273c-4fa7-4872-8f58-ddb252494c63"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/9a16e7df-8b2a-4331-8d59-5b9b5e379597/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="cca5273c-4fa7-4872-8f58-ddb252494c63"><![CDATA[%dw 2.0
+
+type auto_9a16e7df_8b2a_4331_8d59_5b9b5e379597_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="cca5273c-4fa7-4872-8f58-ddb252494c63"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Input-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/77752565-19cd-45f5-ad97-28bcac6e8a90/Input-Payload.wev" autogeneratedOrigin="754a2ebe-52b7-454b-86f5-b758ac69f905"><![CDATA[%dw 2.0
+
+type auto_77752565_19cd_45f5_ad97_28bcac6e8a90_Input_Payload = {
+  KupacID: Number, 
+  Datum: String, 
+  ZaposleniID: Number, 
+  NarudzbinaID?: Number, 
+  Primarnost: String, 
+  Kolicina: Number, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/77752565-19cd-45f5-ad97-28bcac6e8a90/Input-Attributes.wev" autogeneratedOrigin="754a2ebe-52b7-454b-86f5-b758ac69f905"><![CDATA[%dw 2.0
+
+type auto_77752565_19cd_45f5_ad97_28bcac6e8a90_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| NarudzbinaID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/77752565-19cd-45f5-ad97-28bcac6e8a90/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="754a2ebe-52b7-454b-86f5-b758ac69f905"><![CDATA[%dw 2.0
+
+type auto_77752565_19cd_45f5_ad97_28bcac6e8a90_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="754a2ebe-52b7-454b-86f5-b758ac69f905"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Output-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/77752565-19cd-45f5-ad97-28bcac6e8a90/Output-Payload.wev" autogeneratedOrigin="754a2ebe-52b7-454b-86f5-b758ac69f905"><![CDATA[%dw 2.0
+
+type auto_77752565_19cd_45f5_ad97_28bcac6e8a90_Output_Payload = {
+  KupacID: Number, 
+  Datum: String, 
+  ZaposleniID: Number, 
+  NarudzbinaID?: Number, 
+  Primarnost: String, 
+  Kolicina: Number, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/77752565-19cd-45f5-ad97-28bcac6e8a90/Output-Attributes.wev" autogeneratedOrigin="754a2ebe-52b7-454b-86f5-b758ac69f905"><![CDATA[%dw 2.0
+
+type auto_77752565_19cd_45f5_ad97_28bcac6e8a90_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Output-Variables-Narudzbina" format="java">
+      <types:shape format="weave" example="weave/autogenerated/77752565-19cd-45f5-ad97-28bcac6e8a90/Output-Variables-Narudzbina.wev" autogeneratedOrigin="754a2ebe-52b7-454b-86f5-b758ac69f905"><![CDATA[%dw 2.0
+
+type auto_77752565_19cd_45f5_ad97_28bcac6e8a90_Output_Variables_Narudzbina = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/77752565-19cd-45f5-ad97-28bcac6e8a90/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="754a2ebe-52b7-454b-86f5-b758ac69f905"><![CDATA[%dw 2.0
+
+type auto_77752565_19cd_45f5_ad97_28bcac6e8a90_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="754a2ebe-52b7-454b-86f5-b758ac69f905"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Input-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/c44b6f75-b50b-4b84-b926-a25e757af5ac/Input-Payload.wev" autogeneratedOrigin="fc384668-efb2-4dd2-a8b4-9a49ce12ddaa"><![CDATA[%dw 2.0
+
+type auto_c44b6f75_b50b_4b84_b926_a25e757af5ac_Input_Payload = {
+  NazivPerioda: String, 
+  PeriodID?: Number, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/c44b6f75-b50b-4b84-b926-a25e757af5ac/Input-Attributes.wev" autogeneratedOrigin="fc384668-efb2-4dd2-a8b4-9a49ce12ddaa"><![CDATA[%dw 2.0
+
+type auto_c44b6f75_b50b_4b84_b926_a25e757af5ac_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| PeriodID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/c44b6f75-b50b-4b84-b926-a25e757af5ac/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="fc384668-efb2-4dd2-a8b4-9a49ce12ddaa"><![CDATA[%dw 2.0
+
+type auto_c44b6f75_b50b_4b84_b926_a25e757af5ac_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="fc384668-efb2-4dd2-a8b4-9a49ce12ddaa"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Output-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/c44b6f75-b50b-4b84-b926-a25e757af5ac/Output-Payload.wev" autogeneratedOrigin="fc384668-efb2-4dd2-a8b4-9a49ce12ddaa"><![CDATA[%dw 2.0
+
+type auto_c44b6f75_b50b_4b84_b926_a25e757af5ac_Output_Payload = {
+  NazivPerioda: String, 
+  PeriodID?: Number, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/c44b6f75-b50b-4b84-b926-a25e757af5ac/Output-Attributes.wev" autogeneratedOrigin="fc384668-efb2-4dd2-a8b4-9a49ce12ddaa"><![CDATA[%dw 2.0
+
+type auto_c44b6f75_b50b_4b84_b926_a25e757af5ac_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Output-Variables-Period" format="java">
+      <types:shape format="weave" example="weave/autogenerated/c44b6f75-b50b-4b84-b926-a25e757af5ac/Output-Variables-Period.wev" autogeneratedOrigin="fc384668-efb2-4dd2-a8b4-9a49ce12ddaa"><![CDATA[%dw 2.0
+
+type auto_c44b6f75_b50b_4b84_b926_a25e757af5ac_Output_Variables_Period = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/c44b6f75-b50b-4b84-b926-a25e757af5ac/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="fc384668-efb2-4dd2-a8b4-9a49ce12ddaa"><![CDATA[%dw 2.0
+
+type auto_c44b6f75_b50b_4b84_b926_a25e757af5ac_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="fc384668-efb2-4dd2-a8b4-9a49ce12ddaa"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Input-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/ff32fd48-988b-4e61-a236-08ecc1609b1a/Input-Payload.wev" autogeneratedOrigin="5dc54252-ba70-4edc-8a1b-9f3e799a7622"><![CDATA[%dw 2.0
+
+type auto_ff32fd48_988b_4e61_a236_08ecc1609b1a_Input_Payload = {
+  Naziv_slike: String, 
+  TipSlikeID: Number, 
+  SlikarID: Number, 
+  NarudzbinaID: Number, 
+  Cena: Number, 
+  SlikaID?: Number, 
+  PeriodID: Number, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/ff32fd48-988b-4e61-a236-08ecc1609b1a/Input-Attributes.wev" autogeneratedOrigin="5dc54252-ba70-4edc-8a1b-9f3e799a7622"><![CDATA[%dw 2.0
+
+type auto_ff32fd48_988b_4e61_a236_08ecc1609b1a_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| SlikaID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/ff32fd48-988b-4e61-a236-08ecc1609b1a/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="5dc54252-ba70-4edc-8a1b-9f3e799a7622"><![CDATA[%dw 2.0
+
+type auto_ff32fd48_988b_4e61_a236_08ecc1609b1a_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="5dc54252-ba70-4edc-8a1b-9f3e799a7622"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Output-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/ff32fd48-988b-4e61-a236-08ecc1609b1a/Output-Payload.wev" autogeneratedOrigin="5dc54252-ba70-4edc-8a1b-9f3e799a7622"><![CDATA[%dw 2.0
+
+type auto_ff32fd48_988b_4e61_a236_08ecc1609b1a_Output_Payload = {
+  Naziv_slike: String, 
+  TipSlikeID: Number, 
+  SlikarID: Number, 
+  NarudzbinaID: Number, 
+  Cena: Number, 
+  SlikaID?: Number, 
+  PeriodID: Number, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/ff32fd48-988b-4e61-a236-08ecc1609b1a/Output-Attributes.wev" autogeneratedOrigin="5dc54252-ba70-4edc-8a1b-9f3e799a7622"><![CDATA[%dw 2.0
+
+type auto_ff32fd48_988b_4e61_a236_08ecc1609b1a_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Output-Variables-Slika" format="java">
+      <types:shape format="weave" example="weave/autogenerated/ff32fd48-988b-4e61-a236-08ecc1609b1a/Output-Variables-Slika.wev" autogeneratedOrigin="5dc54252-ba70-4edc-8a1b-9f3e799a7622"><![CDATA[%dw 2.0
+
+type auto_ff32fd48_988b_4e61_a236_08ecc1609b1a_Output_Variables_Slika = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/ff32fd48-988b-4e61-a236-08ecc1609b1a/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="5dc54252-ba70-4edc-8a1b-9f3e799a7622"><![CDATA[%dw 2.0
+
+type auto_ff32fd48_988b_4e61_a236_08ecc1609b1a_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="5dc54252-ba70-4edc-8a1b-9f3e799a7622"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Input-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/ceba1620-4736-4b19-87af-8e160ac5fd3f/Input-Payload.wev" autogeneratedOrigin="e96feb28-f3f6-4869-a02d-de73dc6505ce"><![CDATA[%dw 2.0
+
+type auto_ceba1620_4736_4b19_87af_8e160ac5fd3f_Input_Payload = {
+  TipSlikeID?: Number, 
+  NazivTipaSlike: String, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/ceba1620-4736-4b19-87af-8e160ac5fd3f/Input-Attributes.wev" autogeneratedOrigin="e96feb28-f3f6-4869-a02d-de73dc6505ce"><![CDATA[%dw 2.0
+
+type auto_ceba1620_4736_4b19_87af_8e160ac5fd3f_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| TipSlikeID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/ceba1620-4736-4b19-87af-8e160ac5fd3f/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="e96feb28-f3f6-4869-a02d-de73dc6505ce"><![CDATA[%dw 2.0
+
+type auto_ceba1620_4736_4b19_87af_8e160ac5fd3f_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="e96feb28-f3f6-4869-a02d-de73dc6505ce"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Output-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/ceba1620-4736-4b19-87af-8e160ac5fd3f/Output-Payload.wev" autogeneratedOrigin="e96feb28-f3f6-4869-a02d-de73dc6505ce"><![CDATA[%dw 2.0
+
+type auto_ceba1620_4736_4b19_87af_8e160ac5fd3f_Output_Payload = {
+  TipSlikeID?: Number, 
+  NazivTipaSlike: String, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/ceba1620-4736-4b19-87af-8e160ac5fd3f/Output-Attributes.wev" autogeneratedOrigin="e96feb28-f3f6-4869-a02d-de73dc6505ce"><![CDATA[%dw 2.0
+
+type auto_ceba1620_4736_4b19_87af_8e160ac5fd3f_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Output-Variables-TipSlike" format="java">
+      <types:shape format="weave" example="weave/autogenerated/ceba1620-4736-4b19-87af-8e160ac5fd3f/Output-Variables-TipSlike.wev" autogeneratedOrigin="e96feb28-f3f6-4869-a02d-de73dc6505ce"><![CDATA[%dw 2.0
+
+type auto_ceba1620_4736_4b19_87af_8e160ac5fd3f_Output_Variables_TipSlike = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/ceba1620-4736-4b19-87af-8e160ac5fd3f/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="e96feb28-f3f6-4869-a02d-de73dc6505ce"><![CDATA[%dw 2.0
+
+type auto_ceba1620_4736_4b19_87af_8e160ac5fd3f_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="e96feb28-f3f6-4869-a02d-de73dc6505ce"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Input-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1/Input-Payload.wev" autogeneratedOrigin="89458e4f-0115-4caa-93a2-f9f7480dce29"><![CDATA[%dw 2.0
+
+type auto_db9321f3_66bb_4eb1_8e5f_8e8dec5dfec1_Input_Payload = {
+  ImeZaposlenog: String, 
+  ZaposleniID?: Number, 
+  PrezimeZaposlenog: String, 
+  Adresa: String, 
+  KontaktZaposlenog: String, 
+  JMBG: String, 
+  Lozinka: String, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1/Input-Attributes.wev" autogeneratedOrigin="89458e4f-0115-4caa-93a2-f9f7480dce29"><![CDATA[%dw 2.0
+
+type auto_db9321f3_66bb_4eb1_8e5f_8e8dec5dfec1_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| ZaposleniID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="89458e4f-0115-4caa-93a2-f9f7480dce29"><![CDATA[%dw 2.0
+
+type auto_db9321f3_66bb_4eb1_8e5f_8e8dec5dfec1_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="89458e4f-0115-4caa-93a2-f9f7480dce29"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Output-Payload" format="json">
+      <types:shape format="weave" example="weave/autogenerated/db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1/Output-Payload.wev" autogeneratedOrigin="89458e4f-0115-4caa-93a2-f9f7480dce29"><![CDATA[%dw 2.0
+
+type auto_db9321f3_66bb_4eb1_8e5f_8e8dec5dfec1_Output_Payload = {
+  ImeZaposlenog: String, 
+  ZaposleniID?: Number, 
+  PrezimeZaposlenog: String, 
+  Adresa: String, 
+  KontaktZaposlenog: String, 
+  JMBG: String, 
+  Lozinka: String, 
+  _?: Any
+}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1/Output-Attributes.wev" autogeneratedOrigin="89458e4f-0115-4caa-93a2-f9f7480dce29"><![CDATA[%dw 2.0
+
+type auto_db9321f3_66bb_4eb1_8e5f_8e8dec5dfec1_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Output-Variables-Zaposleni" format="java">
+      <types:shape format="weave" example="weave/autogenerated/db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1/Output-Variables-Zaposleni.wev" autogeneratedOrigin="89458e4f-0115-4caa-93a2-f9f7480dce29"><![CDATA[%dw 2.0
+
+type auto_db9321f3_66bb_4eb1_8e5f_8e8dec5dfec1_Output_Variables_Zaposleni = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="89458e4f-0115-4caa-93a2-f9f7480dce29"><![CDATA[%dw 2.0
+
+type auto_db9321f3_66bb_4eb1_8e5f_8e8dec5dfec1_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="89458e4f-0115-4caa-93a2-f9f7480dce29"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_39d22778-2ed6-4f5f-b225-2bc9acc4a199_Input-Payload" format="java">
+      <types:shape format="weave" example="weave/autogenerated/39d22778-2ed6-4f5f-b225-2bc9acc4a199/Input-Payload.wev" autogeneratedOrigin="d058819b-8e99-4bc1-895f-f4e4c0b26fe0"><![CDATA[%dw 2.0
+
+type auto_39d22778_2ed6_4f5f_b225_2bc9acc4a199_Input_Payload = Any
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_39d22778-2ed6-4f5f-b225-2bc9acc4a199_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/39d22778-2ed6-4f5f-b225-2bc9acc4a199/Input-Attributes.wev" autogeneratedOrigin="d058819b-8e99-4bc1-895f-f4e4c0b26fe0"><![CDATA[%dw 2.0
+
+type auto_39d22778_2ed6_4f5f_b225_2bc9acc4a199_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| NarudzbinaID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_39d22778-2ed6-4f5f-b225-2bc9acc4a199_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/39d22778-2ed6-4f5f-b225-2bc9acc4a199/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="d058819b-8e99-4bc1-895f-f4e4c0b26fe0"><![CDATA[%dw 2.0
+
+type auto_39d22778_2ed6_4f5f_b225_2bc9acc4a199_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_39d22778-2ed6-4f5f-b225-2bc9acc4a199_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="d058819b-8e99-4bc1-895f-f4e4c0b26fe0"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_39d22778-2ed6-4f5f-b225-2bc9acc4a199_Output-Payload" format="json">
+      <types:shape format="weave" autogeneratedOrigin="d058819b-8e99-4bc1-895f-f4e4c0b26fe0"><![CDATA[%dw 2.0
+
+type auto_39d22778_2ed6_4f5f_b225_2bc9acc4a199_Output_Payload = {| message?: String |} {"example": "{\\\"message\\\":\\\"Narudzbina deleted (but not really)\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_39d22778-2ed6-4f5f-b225-2bc9acc4a199_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/39d22778-2ed6-4f5f-b225-2bc9acc4a199/Output-Attributes.wev" autogeneratedOrigin="d058819b-8e99-4bc1-895f-f4e4c0b26fe0"><![CDATA[%dw 2.0
+
+type auto_39d22778_2ed6_4f5f_b225_2bc9acc4a199_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_39d22778-2ed6-4f5f-b225-2bc9acc4a199_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/39d22778-2ed6-4f5f-b225-2bc9acc4a199/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="d058819b-8e99-4bc1-895f-f4e4c0b26fe0"><![CDATA[%dw 2.0
+
+type auto_39d22778_2ed6_4f5f_b225_2bc9acc4a199_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_39d22778-2ed6-4f5f-b225-2bc9acc4a199_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="d058819b-8e99-4bc1-895f-f4e4c0b26fe0"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_e62b2fba-ce02-422b-9f2a-fcf51b8f60c9_Input-Payload" format="java">
+      <types:shape format="weave" example="weave/autogenerated/e62b2fba-ce02-422b-9f2a-fcf51b8f60c9/Input-Payload.wev" autogeneratedOrigin="f4faf04d-caff-47a3-a3b5-a3f30340a0d5"><![CDATA[%dw 2.0
+
+type auto_e62b2fba_ce02_422b_9f2a_fcf51b8f60c9_Input_Payload = Any
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_e62b2fba-ce02-422b-9f2a-fcf51b8f60c9_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/e62b2fba-ce02-422b-9f2a-fcf51b8f60c9/Input-Attributes.wev" autogeneratedOrigin="f4faf04d-caff-47a3-a3b5-a3f30340a0d5"><![CDATA[%dw 2.0
+
+type auto_e62b2fba_ce02_422b_9f2a_fcf51b8f60c9_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| KupacID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_e62b2fba-ce02-422b-9f2a-fcf51b8f60c9_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/e62b2fba-ce02-422b-9f2a-fcf51b8f60c9/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="f4faf04d-caff-47a3-a3b5-a3f30340a0d5"><![CDATA[%dw 2.0
+
+type auto_e62b2fba_ce02_422b_9f2a_fcf51b8f60c9_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_e62b2fba-ce02-422b-9f2a-fcf51b8f60c9_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="f4faf04d-caff-47a3-a3b5-a3f30340a0d5"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_e62b2fba-ce02-422b-9f2a-fcf51b8f60c9_Output-Payload" format="json">
+      <types:shape format="weave" autogeneratedOrigin="f4faf04d-caff-47a3-a3b5-a3f30340a0d5"><![CDATA[%dw 2.0
+
+type auto_e62b2fba_ce02_422b_9f2a_fcf51b8f60c9_Output_Payload = {| message?: String |} {"example": "{\\\"message\\\":\\\"Kupac deleted (but not really)\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_e62b2fba-ce02-422b-9f2a-fcf51b8f60c9_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/e62b2fba-ce02-422b-9f2a-fcf51b8f60c9/Output-Attributes.wev" autogeneratedOrigin="f4faf04d-caff-47a3-a3b5-a3f30340a0d5"><![CDATA[%dw 2.0
+
+type auto_e62b2fba_ce02_422b_9f2a_fcf51b8f60c9_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_e62b2fba-ce02-422b-9f2a-fcf51b8f60c9_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/e62b2fba-ce02-422b-9f2a-fcf51b8f60c9/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="f4faf04d-caff-47a3-a3b5-a3f30340a0d5"><![CDATA[%dw 2.0
+
+type auto_e62b2fba_ce02_422b_9f2a_fcf51b8f60c9_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_e62b2fba-ce02-422b-9f2a-fcf51b8f60c9_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="f4faf04d-caff-47a3-a3b5-a3f30340a0d5"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_61ff3988-6d40-4e6a-9ff0-518caa2855b3_Input-Payload" format="java">
+      <types:shape format="weave" example="weave/autogenerated/61ff3988-6d40-4e6a-9ff0-518caa2855b3/Input-Payload.wev" autogeneratedOrigin="c50ce294-7f18-4b42-a6b8-919fa3ed6fc5"><![CDATA[%dw 2.0
+
+type auto_61ff3988_6d40_4e6a_9ff0_518caa2855b3_Input_Payload = Any
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_61ff3988-6d40-4e6a-9ff0-518caa2855b3_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/61ff3988-6d40-4e6a-9ff0-518caa2855b3/Input-Attributes.wev" autogeneratedOrigin="c50ce294-7f18-4b42-a6b8-919fa3ed6fc5"><![CDATA[%dw 2.0
+
+type auto_61ff3988_6d40_4e6a_9ff0_518caa2855b3_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| PeriodID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_61ff3988-6d40-4e6a-9ff0-518caa2855b3_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/61ff3988-6d40-4e6a-9ff0-518caa2855b3/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="c50ce294-7f18-4b42-a6b8-919fa3ed6fc5"><![CDATA[%dw 2.0
+
+type auto_61ff3988_6d40_4e6a_9ff0_518caa2855b3_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_61ff3988-6d40-4e6a-9ff0-518caa2855b3_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="c50ce294-7f18-4b42-a6b8-919fa3ed6fc5"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_61ff3988-6d40-4e6a-9ff0-518caa2855b3_Output-Payload" format="json">
+      <types:shape format="weave" autogeneratedOrigin="c50ce294-7f18-4b42-a6b8-919fa3ed6fc5"><![CDATA[%dw 2.0
+
+type auto_61ff3988_6d40_4e6a_9ff0_518caa2855b3_Output_Payload = {| message?: String |} {"example": "{\\\"message\\\":\\\"Period deleted (but not really)\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_61ff3988-6d40-4e6a-9ff0-518caa2855b3_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/61ff3988-6d40-4e6a-9ff0-518caa2855b3/Output-Attributes.wev" autogeneratedOrigin="c50ce294-7f18-4b42-a6b8-919fa3ed6fc5"><![CDATA[%dw 2.0
+
+type auto_61ff3988_6d40_4e6a_9ff0_518caa2855b3_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_61ff3988-6d40-4e6a-9ff0-518caa2855b3_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/61ff3988-6d40-4e6a-9ff0-518caa2855b3/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="c50ce294-7f18-4b42-a6b8-919fa3ed6fc5"><![CDATA[%dw 2.0
+
+type auto_61ff3988_6d40_4e6a_9ff0_518caa2855b3_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_61ff3988-6d40-4e6a-9ff0-518caa2855b3_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="c50ce294-7f18-4b42-a6b8-919fa3ed6fc5"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_24e3269f-f3b7-45a7-9491-90b441ee8ea6_Input-Payload" format="java">
+      <types:shape format="weave" example="weave/autogenerated/24e3269f-f3b7-45a7-9491-90b441ee8ea6/Input-Payload.wev" autogeneratedOrigin="8f2f3425-1812-4b44-b552-a312e918255e"><![CDATA[%dw 2.0
+
+type auto_24e3269f_f3b7_45a7_9491_90b441ee8ea6_Input_Payload = Any
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_24e3269f-f3b7-45a7-9491-90b441ee8ea6_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/24e3269f-f3b7-45a7-9491-90b441ee8ea6/Input-Attributes.wev" autogeneratedOrigin="8f2f3425-1812-4b44-b552-a312e918255e"><![CDATA[%dw 2.0
+
+type auto_24e3269f_f3b7_45a7_9491_90b441ee8ea6_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| PotvrdaID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_24e3269f-f3b7-45a7-9491-90b441ee8ea6_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/24e3269f-f3b7-45a7-9491-90b441ee8ea6/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="8f2f3425-1812-4b44-b552-a312e918255e"><![CDATA[%dw 2.0
+
+type auto_24e3269f_f3b7_45a7_9491_90b441ee8ea6_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_24e3269f-f3b7-45a7-9491-90b441ee8ea6_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="8f2f3425-1812-4b44-b552-a312e918255e"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_24e3269f-f3b7-45a7-9491-90b441ee8ea6_Output-Payload" format="json">
+      <types:shape format="weave" autogeneratedOrigin="8f2f3425-1812-4b44-b552-a312e918255e"><![CDATA[%dw 2.0
+
+type auto_24e3269f_f3b7_45a7_9491_90b441ee8ea6_Output_Payload = {| message?: String |} {"example": "{\\\"message\\\":\\\"Potvrda deleted (but not really)\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_24e3269f-f3b7-45a7-9491-90b441ee8ea6_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/24e3269f-f3b7-45a7-9491-90b441ee8ea6/Output-Attributes.wev" autogeneratedOrigin="8f2f3425-1812-4b44-b552-a312e918255e"><![CDATA[%dw 2.0
+
+type auto_24e3269f_f3b7_45a7_9491_90b441ee8ea6_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_24e3269f-f3b7-45a7-9491-90b441ee8ea6_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/24e3269f-f3b7-45a7-9491-90b441ee8ea6/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="8f2f3425-1812-4b44-b552-a312e918255e"><![CDATA[%dw 2.0
+
+type auto_24e3269f_f3b7_45a7_9491_90b441ee8ea6_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_24e3269f-f3b7-45a7-9491-90b441ee8ea6_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="8f2f3425-1812-4b44-b552-a312e918255e"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb_Input-Payload" format="java">
+      <types:shape format="weave" example="weave/autogenerated/30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb/Input-Payload.wev" autogeneratedOrigin="200ef416-cb36-4751-a05a-b4f9dcef5189"><![CDATA[%dw 2.0
+
+type auto_30eaaa7c_422e_4ea5_9b00_bc7c06ee69bb_Input_Payload = Any
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb/Input-Attributes.wev" autogeneratedOrigin="200ef416-cb36-4751-a05a-b4f9dcef5189"><![CDATA[%dw 2.0
+
+type auto_30eaaa7c_422e_4ea5_9b00_bc7c06ee69bb_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| SlikaID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="200ef416-cb36-4751-a05a-b4f9dcef5189"><![CDATA[%dw 2.0
+
+type auto_30eaaa7c_422e_4ea5_9b00_bc7c06ee69bb_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="200ef416-cb36-4751-a05a-b4f9dcef5189"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb_Output-Payload" format="json">
+      <types:shape format="weave" autogeneratedOrigin="200ef416-cb36-4751-a05a-b4f9dcef5189"><![CDATA[%dw 2.0
+
+type auto_30eaaa7c_422e_4ea5_9b00_bc7c06ee69bb_Output_Payload = {| message?: String |} {"example": "{\\\"message\\\":\\\"Slika deleted (but not really)\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb/Output-Attributes.wev" autogeneratedOrigin="200ef416-cb36-4751-a05a-b4f9dcef5189"><![CDATA[%dw 2.0
+
+type auto_30eaaa7c_422e_4ea5_9b00_bc7c06ee69bb_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="200ef416-cb36-4751-a05a-b4f9dcef5189"><![CDATA[%dw 2.0
+
+type auto_30eaaa7c_422e_4ea5_9b00_bc7c06ee69bb_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="200ef416-cb36-4751-a05a-b4f9dcef5189"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_50f64fb8-eec7-4657-a2c4-fc5b24d3c765_Input-Payload" format="java">
+      <types:shape format="weave" example="weave/autogenerated/50f64fb8-eec7-4657-a2c4-fc5b24d3c765/Input-Payload.wev" autogeneratedOrigin="d06d6334-5e6e-4eb7-9132-9c2e12cfd7f7"><![CDATA[%dw 2.0
+
+type auto_50f64fb8_eec7_4657_a2c4_fc5b24d3c765_Input_Payload = Any
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_50f64fb8-eec7-4657-a2c4-fc5b24d3c765_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/50f64fb8-eec7-4657-a2c4-fc5b24d3c765/Input-Attributes.wev" autogeneratedOrigin="d06d6334-5e6e-4eb7-9132-9c2e12cfd7f7"><![CDATA[%dw 2.0
+
+type auto_50f64fb8_eec7_4657_a2c4_fc5b24d3c765_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| SlikarID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_50f64fb8-eec7-4657-a2c4-fc5b24d3c765_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/50f64fb8-eec7-4657-a2c4-fc5b24d3c765/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="d06d6334-5e6e-4eb7-9132-9c2e12cfd7f7"><![CDATA[%dw 2.0
+
+type auto_50f64fb8_eec7_4657_a2c4_fc5b24d3c765_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_50f64fb8-eec7-4657-a2c4-fc5b24d3c765_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="d06d6334-5e6e-4eb7-9132-9c2e12cfd7f7"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_50f64fb8-eec7-4657-a2c4-fc5b24d3c765_Output-Payload" format="json">
+      <types:shape format="weave" autogeneratedOrigin="d06d6334-5e6e-4eb7-9132-9c2e12cfd7f7"><![CDATA[%dw 2.0
+
+type auto_50f64fb8_eec7_4657_a2c4_fc5b24d3c765_Output_Payload = {| message?: String |} {"example": "{\\\"message\\\":\\\"Slikar deleted (but not really)\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_50f64fb8-eec7-4657-a2c4-fc5b24d3c765_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/50f64fb8-eec7-4657-a2c4-fc5b24d3c765/Output-Attributes.wev" autogeneratedOrigin="d06d6334-5e6e-4eb7-9132-9c2e12cfd7f7"><![CDATA[%dw 2.0
+
+type auto_50f64fb8_eec7_4657_a2c4_fc5b24d3c765_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_50f64fb8-eec7-4657-a2c4-fc5b24d3c765_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/50f64fb8-eec7-4657-a2c4-fc5b24d3c765/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="d06d6334-5e6e-4eb7-9132-9c2e12cfd7f7"><![CDATA[%dw 2.0
+
+type auto_50f64fb8_eec7_4657_a2c4_fc5b24d3c765_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_50f64fb8-eec7-4657-a2c4-fc5b24d3c765_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="d06d6334-5e6e-4eb7-9132-9c2e12cfd7f7"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_8f89a1f5-8b1c-4f08-8a10-647b00f89488_Input-Payload" format="java">
+      <types:shape format="weave" example="weave/autogenerated/8f89a1f5-8b1c-4f08-8a10-647b00f89488/Input-Payload.wev" autogeneratedOrigin="3b2e65eb-f62b-4082-b2a7-c031da39c4bd"><![CDATA[%dw 2.0
+
+type auto_8f89a1f5_8b1c_4f08_8a10_647b00f89488_Input_Payload = Any
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_8f89a1f5-8b1c-4f08-8a10-647b00f89488_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/8f89a1f5-8b1c-4f08-8a10-647b00f89488/Input-Attributes.wev" autogeneratedOrigin="3b2e65eb-f62b-4082-b2a7-c031da39c4bd"><![CDATA[%dw 2.0
+
+type auto_8f89a1f5_8b1c_4f08_8a10_647b00f89488_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| TipSlikeID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_8f89a1f5-8b1c-4f08-8a10-647b00f89488_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/8f89a1f5-8b1c-4f08-8a10-647b00f89488/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="3b2e65eb-f62b-4082-b2a7-c031da39c4bd"><![CDATA[%dw 2.0
+
+type auto_8f89a1f5_8b1c_4f08_8a10_647b00f89488_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_8f89a1f5-8b1c-4f08-8a10-647b00f89488_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="3b2e65eb-f62b-4082-b2a7-c031da39c4bd"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_8f89a1f5-8b1c-4f08-8a10-647b00f89488_Output-Payload" format="json">
+      <types:shape format="weave" autogeneratedOrigin="3b2e65eb-f62b-4082-b2a7-c031da39c4bd"><![CDATA[%dw 2.0
+
+type auto_8f89a1f5_8b1c_4f08_8a10_647b00f89488_Output_Payload = {| message?: String |} {"example": "{\\\"message\\\":\\\"TipSlike deleted (but not really)\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_8f89a1f5-8b1c-4f08-8a10-647b00f89488_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/8f89a1f5-8b1c-4f08-8a10-647b00f89488/Output-Attributes.wev" autogeneratedOrigin="3b2e65eb-f62b-4082-b2a7-c031da39c4bd"><![CDATA[%dw 2.0
+
+type auto_8f89a1f5_8b1c_4f08_8a10_647b00f89488_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_8f89a1f5-8b1c-4f08-8a10-647b00f89488_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/8f89a1f5-8b1c-4f08-8a10-647b00f89488/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="3b2e65eb-f62b-4082-b2a7-c031da39c4bd"><![CDATA[%dw 2.0
+
+type auto_8f89a1f5_8b1c_4f08_8a10_647b00f89488_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_8f89a1f5-8b1c-4f08-8a10-647b00f89488_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="3b2e65eb-f62b-4082-b2a7-c031da39c4bd"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_71bccca1-db84-434c-b7a4-34e5923384ce_Input-Payload" format="java">
+      <types:shape format="weave" example="weave/autogenerated/71bccca1-db84-434c-b7a4-34e5923384ce/Input-Payload.wev" autogeneratedOrigin="6a322e85-7bc4-487b-bb9d-2c530d3ce46d"><![CDATA[%dw 2.0
+
+type auto_71bccca1_db84_434c_b7a4_34e5923384ce_Input_Payload = Any
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_71bccca1-db84-434c-b7a4-34e5923384ce_Input-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/71bccca1-db84-434c-b7a4-34e5923384ce/Input-Attributes.wev" autogeneratedOrigin="6a322e85-7bc4-487b-bb9d-2c530d3ce46d"><![CDATA[%dw 2.0
+
+type auto_71bccca1_db84_434c_b7a4_34e5923384ce_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| ZaposleniID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_71bccca1-db84-434c-b7a4-34e5923384ce_Input-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/71bccca1-db84-434c-b7a4-34e5923384ce/Input-Variables-outboundHeaders.wev" autogeneratedOrigin="6a322e85-7bc4-487b-bb9d-2c530d3ce46d"><![CDATA[%dw 2.0
+
+type auto_71bccca1_db84_434c_b7a4_34e5923384ce_Input_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_71bccca1-db84-434c-b7a4-34e5923384ce_Input-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="6a322e85-7bc4-487b-bb9d-2c530d3ce46d"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="auto_71bccca1-db84-434c-b7a4-34e5923384ce_Output-Payload" format="json">
+      <types:shape format="weave" autogeneratedOrigin="6a322e85-7bc4-487b-bb9d-2c530d3ce46d"><![CDATA[%dw 2.0
+
+type auto_71bccca1_db84_434c_b7a4_34e5923384ce_Output_Payload = {| message?: String |} {"example": "{\\\"message\\\":\\\"Zaposleni deleted (but not really)\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_71bccca1-db84-434c-b7a4-34e5923384ce_Output-Attributes" format="java">
+      <types:shape format="weave" example="weave/autogenerated/71bccca1-db84-434c-b7a4-34e5923384ce/Output-Attributes.wev" autogeneratedOrigin="6a322e85-7bc4-487b-bb9d-2c530d3ce46d"><![CDATA[%dw 2.0
+
+type auto_71bccca1_db84_434c_b7a4_34e5923384ce_Output_Attributes = Null
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_71bccca1-db84-434c-b7a4-34e5923384ce_Output-Variables-outboundHeaders" format="java">
+      <types:shape format="weave" example="weave/autogenerated/71bccca1-db84-434c-b7a4-34e5923384ce/Output-Variables-outboundHeaders.wev" autogeneratedOrigin="6a322e85-7bc4-487b-bb9d-2c530d3ce46d"><![CDATA[%dw 2.0
+
+type auto_71bccca1_db84_434c_b7a4_34e5923384ce_Output_Variables_outboundHeaders = {|  |}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="auto_71bccca1-db84-434c-b7a4-34e5923384ce_Output-Variables-httpStatus" format="java">
+      <types:shape format="raml" autogeneratedOrigin="6a322e85-7bc4-487b-bb9d-2c530d3ce46d"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="narudzbine_xml" format="xml">
+      <types:example format="xml" element="root" location="examples/narudzbine.xml"/>
+    </types:type>
+    <types:type name="narudzbine" format="xml">
+      <types:example format="xml" element="root" location="examples/narudzbine-1.xml"/>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#83e449f6-72a6-4fc8-851a-aa04b04a2057">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="narudzbine_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#d1728817-be01-4cb3-b52c-b59c6270ba77">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="potvrde_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#e3255273-242f-4d3c-bb93-bfb571b0dfa9">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="periodi_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#47e61324-d14f-4911-a787-0d60c3ee4354">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="tipslike_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#ee622a17-e5f1-4417-abac-d32a58f47963">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="slikari_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#1a984238-b864-4845-90bf-0d63440aa180">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="zaposleni_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#c9aa41f0-4dad-4968-9898-dcceddfe32ca">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="slika_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#80b5a538-d554-440e-b97c-a509b224c91b">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_80b5a538-d554-440e-b97c-a509b224c91b_Input-Payload"/>
+          <types:attributes type="auto_80b5a538-d554-440e-b97c-a509b224c91b_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_80b5a538-d554-440e-b97c-a509b224c91b_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_80b5a538-d554-440e-b97c-a509b224c91b_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_80b5a538-d554-440e-b97c-a509b224c91b_Output-Payload"/>
+          <types:attributes type="auto_80b5a538-d554-440e-b97c-a509b224c91b_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_80b5a538-d554-440e-b97c-a509b224c91b_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_80b5a538-d554-440e-b97c-a509b224c91b_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#3061e1f4-2516-4c2d-8f9b-2b05f6466db1">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_3061e1f4-2516-4c2d-8f9b-2b05f6466db1_Input-Payload"/>
+          <types:attributes type="auto_3061e1f4-2516-4c2d-8f9b-2b05f6466db1_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_3061e1f4-2516-4c2d-8f9b-2b05f6466db1_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_3061e1f4-2516-4c2d-8f9b-2b05f6466db1_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_3061e1f4-2516-4c2d-8f9b-2b05f6466db1_Output-Payload"/>
+          <types:attributes type="auto_3061e1f4-2516-4c2d-8f9b-2b05f6466db1_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_3061e1f4-2516-4c2d-8f9b-2b05f6466db1_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_3061e1f4-2516-4c2d-8f9b-2b05f6466db1_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#f5bc87f5-1a35-4303-936f-fae740fe2c39">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_f5bc87f5-1a35-4303-936f-fae740fe2c39_Input-Payload"/>
+          <types:attributes type="auto_f5bc87f5-1a35-4303-936f-fae740fe2c39_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_f5bc87f5-1a35-4303-936f-fae740fe2c39_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_f5bc87f5-1a35-4303-936f-fae740fe2c39_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_f5bc87f5-1a35-4303-936f-fae740fe2c39_Output-Payload"/>
+          <types:attributes type="auto_f5bc87f5-1a35-4303-936f-fae740fe2c39_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_f5bc87f5-1a35-4303-936f-fae740fe2c39_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_f5bc87f5-1a35-4303-936f-fae740fe2c39_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#402bb5fa-f4b4-4e22-89c7-fefa7297d3f3">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_402bb5fa-f4b4-4e22-89c7-fefa7297d3f3_Input-Payload"/>
+          <types:attributes type="auto_402bb5fa-f4b4-4e22-89c7-fefa7297d3f3_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_402bb5fa-f4b4-4e22-89c7-fefa7297d3f3_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_402bb5fa-f4b4-4e22-89c7-fefa7297d3f3_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_402bb5fa-f4b4-4e22-89c7-fefa7297d3f3_Output-Payload"/>
+          <types:attributes type="auto_402bb5fa-f4b4-4e22-89c7-fefa7297d3f3_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_402bb5fa-f4b4-4e22-89c7-fefa7297d3f3_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_402bb5fa-f4b4-4e22-89c7-fefa7297d3f3_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#fa11ab68-fb3f-4fde-8eef-c82ac01c8f78">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_fa11ab68-fb3f-4fde-8eef-c82ac01c8f78_Input-Payload"/>
+          <types:attributes type="auto_fa11ab68-fb3f-4fde-8eef-c82ac01c8f78_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_fa11ab68-fb3f-4fde-8eef-c82ac01c8f78_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_fa11ab68-fb3f-4fde-8eef-c82ac01c8f78_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_fa11ab68-fb3f-4fde-8eef-c82ac01c8f78_Output-Payload"/>
+          <types:attributes type="auto_fa11ab68-fb3f-4fde-8eef-c82ac01c8f78_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_fa11ab68-fb3f-4fde-8eef-c82ac01c8f78_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_fa11ab68-fb3f-4fde-8eef-c82ac01c8f78_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#3c710ca1-0936-46c3-b646-4ebee8027f0a">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_3c710ca1-0936-46c3-b646-4ebee8027f0a_Input-Payload"/>
+          <types:attributes type="auto_3c710ca1-0936-46c3-b646-4ebee8027f0a_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_3c710ca1-0936-46c3-b646-4ebee8027f0a_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_3c710ca1-0936-46c3-b646-4ebee8027f0a_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_3c710ca1-0936-46c3-b646-4ebee8027f0a_Output-Payload"/>
+          <types:attributes type="auto_3c710ca1-0936-46c3-b646-4ebee8027f0a_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_3c710ca1-0936-46c3-b646-4ebee8027f0a_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_3c710ca1-0936-46c3-b646-4ebee8027f0a_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#b3b3e83b-8ccc-488c-b699-f220eacd48b7">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_b3b3e83b-8ccc-488c-b699-f220eacd48b7_Input-Payload"/>
+          <types:attributes type="auto_b3b3e83b-8ccc-488c-b699-f220eacd48b7_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_b3b3e83b-8ccc-488c-b699-f220eacd48b7_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_b3b3e83b-8ccc-488c-b699-f220eacd48b7_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_b3b3e83b-8ccc-488c-b699-f220eacd48b7_Output-Payload"/>
+          <types:attributes type="auto_b3b3e83b-8ccc-488c-b699-f220eacd48b7_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_b3b3e83b-8ccc-488c-b699-f220eacd48b7_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_b3b3e83b-8ccc-488c-b699-f220eacd48b7_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#64394343-1888-4029-be71-faedd5c352fe">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="kupac_noID_json"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="kapac_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#74450540-e7d6-476b-9acd-ba19ba8dd5dc">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="kupci_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#1627b414-83ba-4da9-968b-69a8ec91183c">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_1627b414-83ba-4da9-968b-69a8ec91183c_Input-Payload"/>
+          <types:attributes type="auto_1627b414-83ba-4da9-968b-69a8ec91183c_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_1627b414-83ba-4da9-968b-69a8ec91183c_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_1627b414-83ba-4da9-968b-69a8ec91183c_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="kapac_json"/>
+          <types:attributes type="auto_1627b414-83ba-4da9-968b-69a8ec91183c_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_1627b414-83ba-4da9-968b-69a8ec91183c_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_1627b414-83ba-4da9-968b-69a8ec91183c_Output-Variables-httpStatus"/>
+          <types:variable name="Kupac" type="auto_1627b414-83ba-4da9-968b-69a8ec91183c_Output-Variables-Kupac"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#da6dd0fa-cfff-4dd0-8534-994e6f3b13ab">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Input-Payload"/>
+          <types:attributes type="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Output-Payload"/>
+          <types:attributes type="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Output-Variables-httpStatus"/>
+          <types:variable name="Zaposleni" type="auto_da6dd0fa-cfff-4dd0-8534-994e6f3b13ab_Output-Variables-Zaposleni"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#40b5f0e9-0659-4a6d-a203-26cb05d3b10d">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Input-Payload"/>
+          <types:attributes type="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Output-Payload"/>
+          <types:attributes type="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Output-Variables-httpStatus"/>
+          <types:variable name="TipSlike" type="auto_40b5f0e9-0659-4a6d-a203-26cb05d3b10d_Output-Variables-TipSlike"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#0a353d2b-8c70-499d-acde-773ce97e3782">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Input-Payload"/>
+          <types:attributes type="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Output-Payload"/>
+          <types:attributes type="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Output-Variables-outboundHeaders"/>
+          <types:variable name="Slika" type="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Output-Variables-Slika"/>
+          <types:variable name="httpStatus" type="auto_0a353d2b-8c70-499d-acde-773ce97e3782_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#97893480-2844-41c1-bcc9-590d1c489064">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_97893480-2844-41c1-bcc9-590d1c489064_Input-Payload"/>
+          <types:attributes type="auto_97893480-2844-41c1-bcc9-590d1c489064_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_97893480-2844-41c1-bcc9-590d1c489064_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_97893480-2844-41c1-bcc9-590d1c489064_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_97893480-2844-41c1-bcc9-590d1c489064_Output-Payload"/>
+          <types:attributes type="auto_97893480-2844-41c1-bcc9-590d1c489064_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_97893480-2844-41c1-bcc9-590d1c489064_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_97893480-2844-41c1-bcc9-590d1c489064_Output-Variables-httpStatus"/>
+          <types:variable name="Potvrda" type="auto_97893480-2844-41c1-bcc9-590d1c489064_Output-Variables-Potvrda"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#e4e292d0-55b3-48a0-a088-be95d8b13335">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Input-Payload"/>
+          <types:attributes type="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Output-Payload"/>
+          <types:attributes type="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Output-Variables-httpStatus"/>
+          <types:variable name="Period" type="auto_e4e292d0-55b3-48a0-a088-be95d8b13335_Output-Variables-Period"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#b84314f5-cf80-408d-9359-24ea76571c1b">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Input-Payload"/>
+          <types:attributes type="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Output-Payload"/>
+          <types:attributes type="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="Narudzbina" type="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Output-Variables-Narudzbina"/>
+          <types:variable name="outboundHeaders" type="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_b84314f5-cf80-408d-9359-24ea76571c1b_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#9a16e7df-8b2a-4331-8d59-5b9b5e379597">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Input-Payload"/>
+          <types:attributes type="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Output-Payload"/>
+          <types:attributes type="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Output-Variables-httpStatus"/>
+          <types:variable name="Kupac" type="auto_9a16e7df-8b2a-4331-8d59-5b9b5e379597_Output-Variables-Kupac"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#77752565-19cd-45f5-ad97-28bcac6e8a90">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Input-Payload"/>
+          <types:attributes type="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Output-Payload"/>
+          <types:attributes type="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="Narudzbina" type="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Output-Variables-Narudzbina"/>
+          <types:variable name="outboundHeaders" type="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_77752565-19cd-45f5-ad97-28bcac6e8a90_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#c44b6f75-b50b-4b84-b926-a25e757af5ac">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Input-Payload"/>
+          <types:attributes type="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Output-Payload"/>
+          <types:attributes type="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Output-Variables-httpStatus"/>
+          <types:variable name="Period" type="auto_c44b6f75-b50b-4b84-b926-a25e757af5ac_Output-Variables-Period"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#ff32fd48-988b-4e61-a236-08ecc1609b1a">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Input-Payload"/>
+          <types:attributes type="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Output-Payload"/>
+          <types:attributes type="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Output-Variables-outboundHeaders"/>
+          <types:variable name="Slika" type="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Output-Variables-Slika"/>
+          <types:variable name="httpStatus" type="auto_ff32fd48-988b-4e61-a236-08ecc1609b1a_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#ceba1620-4736-4b19-87af-8e160ac5fd3f">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Input-Payload"/>
+          <types:attributes type="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Output-Payload"/>
+          <types:attributes type="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Output-Variables-httpStatus"/>
+          <types:variable name="TipSlike" type="auto_ceba1620-4736-4b19-87af-8e160ac5fd3f_Output-Variables-TipSlike"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Input-Payload"/>
+          <types:attributes type="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Output-Payload"/>
+          <types:attributes type="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Output-Variables-httpStatus"/>
+          <types:variable name="Zaposleni" type="auto_db9321f3-66bb-4eb1-8e5f-8e8dec5dfec1_Output-Variables-Zaposleni"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#39d22778-2ed6-4f5f-b225-2bc9acc4a199">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_39d22778-2ed6-4f5f-b225-2bc9acc4a199_Input-Payload"/>
+          <types:attributes type="auto_39d22778-2ed6-4f5f-b225-2bc9acc4a199_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_39d22778-2ed6-4f5f-b225-2bc9acc4a199_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_39d22778-2ed6-4f5f-b225-2bc9acc4a199_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_39d22778-2ed6-4f5f-b225-2bc9acc4a199_Output-Payload"/>
+          <types:attributes type="auto_39d22778-2ed6-4f5f-b225-2bc9acc4a199_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_39d22778-2ed6-4f5f-b225-2bc9acc4a199_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_39d22778-2ed6-4f5f-b225-2bc9acc4a199_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#e62b2fba-ce02-422b-9f2a-fcf51b8f60c9">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_e62b2fba-ce02-422b-9f2a-fcf51b8f60c9_Input-Payload"/>
+          <types:attributes type="auto_e62b2fba-ce02-422b-9f2a-fcf51b8f60c9_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_e62b2fba-ce02-422b-9f2a-fcf51b8f60c9_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_e62b2fba-ce02-422b-9f2a-fcf51b8f60c9_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_e62b2fba-ce02-422b-9f2a-fcf51b8f60c9_Output-Payload"/>
+          <types:attributes type="auto_e62b2fba-ce02-422b-9f2a-fcf51b8f60c9_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_e62b2fba-ce02-422b-9f2a-fcf51b8f60c9_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_e62b2fba-ce02-422b-9f2a-fcf51b8f60c9_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#61ff3988-6d40-4e6a-9ff0-518caa2855b3">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_61ff3988-6d40-4e6a-9ff0-518caa2855b3_Input-Payload"/>
+          <types:attributes type="auto_61ff3988-6d40-4e6a-9ff0-518caa2855b3_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_61ff3988-6d40-4e6a-9ff0-518caa2855b3_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_61ff3988-6d40-4e6a-9ff0-518caa2855b3_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_61ff3988-6d40-4e6a-9ff0-518caa2855b3_Output-Payload"/>
+          <types:attributes type="auto_61ff3988-6d40-4e6a-9ff0-518caa2855b3_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_61ff3988-6d40-4e6a-9ff0-518caa2855b3_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_61ff3988-6d40-4e6a-9ff0-518caa2855b3_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#24e3269f-f3b7-45a7-9491-90b441ee8ea6">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_24e3269f-f3b7-45a7-9491-90b441ee8ea6_Input-Payload"/>
+          <types:attributes type="auto_24e3269f-f3b7-45a7-9491-90b441ee8ea6_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_24e3269f-f3b7-45a7-9491-90b441ee8ea6_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_24e3269f-f3b7-45a7-9491-90b441ee8ea6_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_24e3269f-f3b7-45a7-9491-90b441ee8ea6_Output-Payload"/>
+          <types:attributes type="auto_24e3269f-f3b7-45a7-9491-90b441ee8ea6_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_24e3269f-f3b7-45a7-9491-90b441ee8ea6_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_24e3269f-f3b7-45a7-9491-90b441ee8ea6_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb_Input-Payload"/>
+          <types:attributes type="auto_30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb_Output-Payload"/>
+          <types:attributes type="auto_30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_30eaaa7c-422e-4ea5-9b00-bc7c06ee69bb_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#50f64fb8-eec7-4657-a2c4-fc5b24d3c765">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_50f64fb8-eec7-4657-a2c4-fc5b24d3c765_Input-Payload"/>
+          <types:attributes type="auto_50f64fb8-eec7-4657-a2c4-fc5b24d3c765_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_50f64fb8-eec7-4657-a2c4-fc5b24d3c765_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_50f64fb8-eec7-4657-a2c4-fc5b24d3c765_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_50f64fb8-eec7-4657-a2c4-fc5b24d3c765_Output-Payload"/>
+          <types:attributes type="auto_50f64fb8-eec7-4657-a2c4-fc5b24d3c765_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_50f64fb8-eec7-4657-a2c4-fc5b24d3c765_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_50f64fb8-eec7-4657-a2c4-fc5b24d3c765_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#8f89a1f5-8b1c-4f08-8a10-647b00f89488">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_8f89a1f5-8b1c-4f08-8a10-647b00f89488_Input-Payload"/>
+          <types:attributes type="auto_8f89a1f5-8b1c-4f08-8a10-647b00f89488_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_8f89a1f5-8b1c-4f08-8a10-647b00f89488_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_8f89a1f5-8b1c-4f08-8a10-647b00f89488_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_8f89a1f5-8b1c-4f08-8a10-647b00f89488_Output-Payload"/>
+          <types:attributes type="auto_8f89a1f5-8b1c-4f08-8a10-647b00f89488_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_8f89a1f5-8b1c-4f08-8a10-647b00f89488_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_8f89a1f5-8b1c-4f08-8a10-647b00f89488_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#71bccca1-db84-434c-b7a4-34e5923384ce">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="auto_71bccca1-db84-434c-b7a4-34e5923384ce_Input-Payload"/>
+          <types:attributes type="auto_71bccca1-db84-434c-b7a4-34e5923384ce_Input-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_71bccca1-db84-434c-b7a4-34e5923384ce_Input-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_71bccca1-db84-434c-b7a4-34e5923384ce_Input-Variables-httpStatus"/>
+        </types:variables>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="auto_71bccca1-db84-434c-b7a4-34e5923384ce_Output-Payload"/>
+          <types:attributes type="auto_71bccca1-db84-434c-b7a4-34e5923384ce_Output-Attributes"/>
+        </types:message>
+        <types:variables>
+          <types:variable name="outboundHeaders" type="auto_71bccca1-db84-434c-b7a4-34e5923384ce_Output-Variables-outboundHeaders"/>
+          <types:variable name="httpStatus" type="auto_71bccca1-db84-434c-b7a4-34e5923384ce_Output-Variables-httpStatus"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#30044c33-2143-4d16-881c-376d98482e60">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="kupci_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#1987b789-2543-4fba-af8c-8f81283cc511">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="narudzbine_json"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="narudzbine"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#27b3e14d-8b5a-42e4-8416-99cc61ab9107">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="narudzbine_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#ee2ddd98-570b-4308-a14d-284e753aea66">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="narudzbine"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

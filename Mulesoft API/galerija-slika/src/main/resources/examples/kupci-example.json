@@ -1,0 +1,23 @@
+[{
+  "KupacID": 1,
+  "ImeKupca": "Milica",
+  "PrezimeKupca": "Pantic",
+  "Adresa": "Kneza Milosa 4",
+  "JMBG": "1212000184532",
+  "Pol": "zensko",
+  "KontaktKupca": "0645898354",
+  "Datum_rodjenja": "2001-12-12",
+  "Aktivan": true,
+  "GotovinskoStanje": 555268888.25
+}, {
+    "KupacID": 2,
+    "ImeKupca": "Darko",
+    "PrezimeKupca": "Popovic",
+    "Adresa": "Nikole Pasica 29",
+    "JMBG": "2001998184532",
+    "Pol": "musko",
+    "KontaktKupca": "0645508114",
+    "Datum_rodjenja": "1998-01-20",
+    "Aktivan": true,
+    "GotovinskoStanje": 5400000.59
+}]

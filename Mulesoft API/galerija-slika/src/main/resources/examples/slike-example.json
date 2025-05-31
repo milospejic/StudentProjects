@@ -1,0 +1,18 @@
+[{
+    "SlikaID": 1,
+    "Naziv_slike": "Mona Lisa",
+    "Cena": "1700000.78",
+    "PeriodID": 1,
+    "TipSlikeID":2,
+    "SlikarID": 1,
+    "NarudzbinaID": 1
+
+}, {
+    "SlikaID": 2,
+    "Naziv_slike": "Seoba Srba",
+    "Cena": "2500000.00",
+    "PeriodID": 5,
+    "TipSlikeID":2,
+    "SlikarID":5,
+    "NarudzbinaID": 3
+}]

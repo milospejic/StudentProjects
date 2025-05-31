@@ -1,0 +1,13 @@
+%dw 2.0
+
+type auto_0a353d2b_8c70_499d_acde_773ce97e3782_Input_Payload = {
+  Naziv_slike: String, 
+  TipSlikeID: Number, 
+  SlikarID: Number, 
+  NarudzbinaID: Number, 
+  Cena: Number, 
+  SlikaID?: Number, 
+  PeriodID: Number, 
+  _?: Any
+}
+

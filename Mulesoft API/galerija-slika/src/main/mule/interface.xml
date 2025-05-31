@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+    <apikit:config name="galerija-slika-api-config" api="resource::dae55359-2934-48f0-a973-33c54a5da09a:galerija-slika-api:1.0.1:raml:zip:galerija-slika-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <flow name="galerija-slika-api-main">
+        <http:listener config-ref="HTTP_Listener_config" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="galerija-slika-api-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:BAD_REQUEST">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Bad request"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">400</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Method not allowed"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">405</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Not acceptable"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">406</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Unsupported media type"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">415</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Not Implemented"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">501</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="galerija-slika-api-console">
+        <http:listener config-ref="HTTP_Listener_config" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="galerija-slika-api-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="put:\kupac\(KupacID):application\json:galerija-slika-api-config">
+		<flow-ref doc:name="putKupac" doc:id="cca5273c-4fa7-4872-8f58-ddb252494c63" name="putKupac"/>
+    </flow>
+    <flow name="put:\narudzbina\(NarudzbinaID):application\json:galerija-slika-api-config">
+		<flow-ref doc:name="putNarudzbina" doc:id="754a2ebe-52b7-454b-86f5-b758ac69f905" name="putNarudzbina"/>
+    </flow>
+    <flow name="put:\period\(PeriodID):application\json:galerija-slika-api-config">
+		<flow-ref doc:name="putPeriod" doc:id="fc384668-efb2-4dd2-a8b4-9a49ce12ddaa" name="putPeriod"/>
+    </flow>
+    <flow name="put:\potvrda\(PotvrdaID):application\json:galerija-slika-api-config">
+		<flow-ref doc:name="putPotvrda" doc:id="a3c7c7b4-d467-48de-867c-191e85465646" name="putPotvrda"/>
+    </flow>
+    <flow name="put:\slika\(SlikaID):application\json:galerija-slika-api-config">
+		<flow-ref doc:name="putSlika" doc:id="5dc54252-ba70-4edc-8a1b-9f3e799a7622" name="putSlika"/>
+    </flow>
+    <flow name="put:\slikar\(SlikarID):application\json:galerija-slika-api-config">
+		<flow-ref doc:name="putSlikar" doc:id="d456d7f4-013e-4242-a525-26c7298e3ea3" name="putSlikar"/>
+    </flow>
+    <flow name="put:\tipSlike\(TipSlikeID):application\json:galerija-slika-api-config">
+		<flow-ref doc:name="putTipSlike" doc:id="e96feb28-f3f6-4869-a02d-de73dc6505ce" name="putTipSlike"/>
+    </flow>
+	<flow name="put:\zaposleni\(ZaposleniID):application\json:galerija-slika-api-config">
+		<flow-ref doc:name="putZaposleni" doc:id="89458e4f-0115-4caa-93a2-f9f7480dce29" name="putZaposleni"/>
+    </flow>
+    <flow name="delete:\kupac\(KupacID):galerija-slika-api-config">
+		<flow-ref doc:name="deleteKupac" doc:id="f4faf04d-caff-47a3-a3b5-a3f30340a0d5" name="deleteKupac"/>
+    </flow>
+    <flow name="delete:\narudzbina\(NarudzbinaID):galerija-slika-api-config">
+		<flow-ref doc:name="deleteNarudzbina" doc:id="d058819b-8e99-4bc1-895f-f4e4c0b26fe0" name="deleteNarudzbina"/>
+    </flow>
+    <flow name="delete:\period\(PeriodID):galerija-slika-api-config">
+		<flow-ref doc:name="deletePeriod" doc:id="c50ce294-7f18-4b42-a6b8-919fa3ed6fc5" name="deletePeriod"/>
+    </flow>
+    <flow name="delete:\potvrda\(PotvrdaID):galerija-slika-api-config">
+		<flow-ref doc:name="deletePotvrda" doc:id="8f2f3425-1812-4b44-b552-a312e918255e" name="deletePotvrda"/>
+    </flow>
+    <flow name="delete:\slika\(SlikaID):galerija-slika-api-config">
+		<flow-ref doc:name="deleteSlika" doc:id="200ef416-cb36-4751-a05a-b4f9dcef5189" name="deleteSlika"/>
+    </flow>
+    <flow name="delete:\slikar\(SlikarID):galerija-slika-api-config">
+		<flow-ref doc:name="deleteSlikar" doc:id="d06d6334-5e6e-4eb7-9132-9c2e12cfd7f7" name="deleteSlikar"/>
+    </flow>
+    <flow name="delete:\tipSlike\(TipSlikeID):galerija-slika-api-config">
+		<flow-ref doc:name="deleteTipSlike" doc:id="3b2e65eb-f62b-4082-b2a7-c031da39c4bd" name="deleteTipSlike"/>
+    </flow>
+    <flow name="delete:\zaposleni\(ZaposleniID):galerija-slika-api-config">
+		<flow-ref doc:name="deleteZaposleni" doc:id="6a322e85-7bc4-487b-bb9d-2c530d3ce46d" name="deleteZaposleni"/>
+    </flow>
+    <flow name="get:\kupac:galerija-slika-api-config">
+		<flow-ref doc:name="getKupci" doc:id="65cb8eb4-82ce-4f09-8ba5-23f9617b04a4" name="getKupci"/>
+    </flow>
+    <flow name="get:\narudzbina:galerija-slika-api-config">
+		<flow-ref doc:name="getNarudzbine" doc:id="ce627380-3a92-4b5b-add2-2d0d0a71dafa" name="getNarudzbine"/>
+    </flow>
+    <flow name="get:\period:galerija-slika-api-config">
+		<flow-ref doc:name="getPeriodi" doc:id="4d0331b6-ee72-4b68-8261-dbeaf9e6937a" name="getPeriodi"/>
+    </flow>
+    <flow name="get:\potvrda:galerija-slika-api-config">
+		<flow-ref doc:name="getPotvrde" doc:id="71fd9108-6828-4689-85c2-b0c4f10736a7" name="getPotvrde"/>
+    </flow>
+    <flow name="get:\slika:galerija-slika-api-config">
+		<flow-ref doc:name="getSlike" doc:id="442be082-6bd1-4a67-b122-5fbd1ba3cfdc" name="getSlike"/>
+    </flow>
+    <flow name="get:\slikar:galerija-slika-api-config">
+		<flow-ref doc:name="getSlikari" doc:id="11fc4007-5d77-4524-8118-cf954fe7219d" name="getSlikari"/>
+    </flow>
+    <flow name="get:\tipSlike:galerija-slika-api-config">
+		<flow-ref doc:name="getTipoviSlike" doc:id="0737a37d-4905-4d16-8e51-58d06d0fa3ed" name="getTipoviSlike"/>
+    </flow>
+    <flow name="get:\zaposleni:galerija-slika-api-config">
+		<flow-ref doc:name="getZaposleni" doc:id="ef54a597-11cc-40c1-a0a5-c05cd8bbfca9" name="getZaposleni"/>
+    </flow>
+    <flow name="get:\kupac\(KupacID):galerija-slika-api-config">
+		<flow-ref doc:name="getKupciByID" doc:id="fd2cfd25-c18f-438d-be96-867d36933715" name="getKupciByID"/>
+    </flow>
+    <flow name="get:\narudzbina\(NarudzbinaID):galerija-slika-api-config">
+		<flow-ref doc:name="getNarudzbineByID" doc:id="28207582-8fa0-40b1-9fc6-cc50ad70f541" name="getNarudzbineByID"/>
+    </flow>
+    <flow name="get:\period\(PeriodID):galerija-slika-api-config">
+		<flow-ref doc:name="getPeriodiByID" doc:id="ee32f84a-b610-4190-b5eb-21eea2d2f249" name="getPeriodiByID"/>
+    </flow>
+    <flow name="get:\potvrda\(PotvrdaID):galerija-slika-api-config">
+		<flow-ref doc:name="getPotvrdeByID" doc:id="09f76b0e-3276-4ffd-83e5-e2a977efd9f9" name="getPotvrdeByID"/>
+    </flow>
+    <flow name="get:\slika\(SlikaID):galerija-slika-api-config">
+		<flow-ref doc:name="getSlikeByID" doc:id="72def00a-e157-492c-a376-48fa3b8fcd49" name="getSlikeByID"/>
+    </flow>
+    <flow name="get:\slikar\(SlikarID):galerija-slika-api-config">
+		<flow-ref doc:name="getSlikariByID" doc:id="1e08d46c-67c6-428e-bf1a-5bd4cb757980" name="getSlikariByID"/>
+    </flow>
+    <flow name="get:\tipSlike\(TipSlikeID):galerija-slika-api-config">
+		<flow-ref doc:name="getTipoviSlikeID" doc:id="a83294fa-03ee-407e-a6d5-5dd6b60f2f22" name="getTipoviSlikeID"/>
+    </flow>
+    <flow name="get:\zaposleni\(ZaposleniID):galerija-slika-api-config">
+		<flow-ref doc:name="getZaposleniByID" doc:id="8ee5796a-4f9e-4712-a4fb-b497b2e33c44" name="getZaposleniByID"/>
+    </flow>
+    <flow name="post:\kupac:application\json:galerija-slika-api-config">
+		<flow-ref doc:name="postKupac" doc:id="e9e9e752-dcfc-490a-afd3-24cd6c9bde3b" name="postKupac"/>
+    </flow>
+    <flow name="post:\narudzbina:application\json:galerija-slika-api-config">
+		<flow-ref doc:name="postNarudzbina" doc:id="72f6fdc2-74a8-4d3d-8a71-32866ea488b3" name="postNarudzbina"/>
+    </flow>
+    <flow name="post:\period:application\json:galerija-slika-api-config">
+		<flow-ref doc:name="postPeriod" doc:id="b1f49b68-27e3-4d91-82fc-ad2d10911563" name="postPeriod"/>
+    </flow>
+    <flow name="post:\potvrda:application\json:galerija-slika-api-config">
+		<flow-ref doc:name="postPotvrda" doc:id="6a76f7ad-b50c-4a05-9ee6-f10b4d13ea2d" name="postPotvrda"/>
+    </flow>
+    <flow name="post:\slika:application\json:galerija-slika-api-config">
+		<flow-ref doc:name="postSlika" doc:id="035a2313-c021-4b07-a2a2-3c38bef08198" name="postSlika"/>
+    </flow>
+    <flow name="post:\slikar:application\json:galerija-slika-api-config">
+		<flow-ref doc:name="postSlikar" doc:id="4219bef0-f3fd-4e4c-9776-58595f373793" name="postSlikar"/>
+    </flow>
+    <flow name="post:\tipSlike:application\json:galerija-slika-api-config">
+		<flow-ref doc:name="postTipSlike" doc:id="a847ac0b-36eb-49c9-b1d4-eb5a3cad91ed" name="postTipSlike"/>
+    </flow>
+    <flow name="post:\zaposleni:application\json:galerija-slika-api-config">
+		<flow-ref doc:name="postZaposleni" doc:id="b34eae0a-b5e6-42d9-ad4d-b5b0d7ae2fe4" name="postZaposleni"/>
+    </flow>
+</mule>

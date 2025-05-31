@@ -1,0 +1,23 @@
+%dw 2.0
+
+type auto_ff32fd48_988b_4e61_a236_08ecc1609b1a_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| SlikaID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+

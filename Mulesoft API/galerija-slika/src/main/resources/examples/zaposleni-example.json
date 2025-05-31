@@ -1,0 +1,18 @@
+[{
+  "ZaposleniID": 1,
+  "ImeZaposlenog": "Milan",
+  "PrezimeZaposlenog": "Pavlovic",
+  "Adresa": "Milosa Obilica 10",
+  "JMBG": "1203997184532",
+  "KontaktZaposlenog": "0645898654",
+  "Lozinka": "0123uz98"
+
+}, {
+  "ZaposleniID": 2,
+  "ImeZaposlenog": "Dunja",
+  "PrezimeZaposlenog": "Popovic",
+  "Adresa": "Cara Lazara 20",
+  "JMBG": "1203998188534",
+  "KontaktZaposlenog": "0640008114",
+  "Lozinka": "8726wt71"
+}]

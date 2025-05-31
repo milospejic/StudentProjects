@@ -1,0 +1,23 @@
+%dw 2.0
+
+type auto_fa11ab68_fb3f_4fde_8eef_c82ac01c8f78_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| ZaposleniID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+

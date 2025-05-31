@@ -1,0 +1,23 @@
+%dw 2.0
+
+type auto_ceba1620_4736_4b19_87af_8e160ac5fd3f_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| TipSlikeID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+

@@ -1,0 +1,23 @@
+%dw 2.0
+
+type auto_30eaaa7c_422e_4ea5_9b00_bc7c06ee69bb_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| SlikaID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+

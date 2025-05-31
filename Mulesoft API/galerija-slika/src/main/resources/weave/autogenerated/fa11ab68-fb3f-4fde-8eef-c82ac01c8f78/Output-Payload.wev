@@ -1,0 +1,13 @@
+%dw 2.0
+
+type auto_fa11ab68_fb3f_4fde_8eef_c82ac01c8f78_Output_Payload = {
+  ImeZaposlenog: String, 
+  ZaposleniID?: Number, 
+  PrezimeZaposlenog: String, 
+  Adresa: String, 
+  KontaktZaposlenog: String, 
+  JMBG: String, 
+  Lozinka: String, 
+  _?: Any
+}
+

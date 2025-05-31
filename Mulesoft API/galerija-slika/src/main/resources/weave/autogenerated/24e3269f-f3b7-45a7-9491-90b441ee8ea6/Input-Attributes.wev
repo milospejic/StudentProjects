@@ -1,0 +1,23 @@
+%dw 2.0
+
+type auto_24e3269f_f3b7_45a7_9491_90b441ee8ea6_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| PotvrdaID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+

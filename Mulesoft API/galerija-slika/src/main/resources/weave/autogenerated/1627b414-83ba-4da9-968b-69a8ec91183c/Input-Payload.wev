@@ -1,0 +1,16 @@
+%dw 2.0
+
+type auto_1627b414_83ba_4da9_968b_69a8ec91183c_Input_Payload = {
+  KupacID?: Number, 
+  Datum_rodjenja: String, 
+  Adresa: String, 
+  KontaktKupca: String, 
+  JMBG: String, 
+  Aktivan: Boolean, 
+  Pol: String, 
+  ImeKupca: String, 
+  GotovinskoStanje: Number, 
+  PrezimeKupca: String, 
+  _?: Any
+}
+

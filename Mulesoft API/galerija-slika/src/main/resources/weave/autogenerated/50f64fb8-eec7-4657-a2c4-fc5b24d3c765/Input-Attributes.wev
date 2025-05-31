@@ -1,0 +1,23 @@
+%dw 2.0
+
+type auto_50f64fb8_eec7_4657_a2c4_fc5b24d3c765_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| SlikarID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+

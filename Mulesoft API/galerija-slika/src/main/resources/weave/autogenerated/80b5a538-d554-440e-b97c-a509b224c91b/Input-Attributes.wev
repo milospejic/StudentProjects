@@ -1,0 +1,23 @@
+%dw 2.0
+
+type auto_80b5a538_d554_440e_b97c_a509b224c91b_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| NarudzbinaID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+

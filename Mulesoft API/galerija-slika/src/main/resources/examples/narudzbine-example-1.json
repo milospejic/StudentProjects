@@ -1,0 +1,15 @@
+[{
+    "NarudzbinaID": 1,
+    "Datum": "2021/03/05",
+    "Primarnost": "A",
+    "Kolicina": 58,
+    "ZaposleniID": 1,
+    "KupacID": 2
+}, {
+    "NarudzbinaID": 2,
+    "Datum": "2021/11/05",
+    "Primarnost": "A",
+    "Kolicina": 105,
+    "ZaposleniID": 2,
+    "KupacID": 3
+}]

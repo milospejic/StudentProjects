@@ -1,0 +1,9 @@
+%dw 2.0
+
+type auto_97893480_2844_41c1_bcc9_590d1c489064_Input_Payload = {
+  PotvrdaID?: Number, 
+  IzvrsenaTransakcija: Boolean, 
+  NarudzbinaID: Number, 
+  _?: Any
+}
+

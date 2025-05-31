@@ -1,0 +1,28 @@
+Otvorimo terminal neki, tipa PowerShell
+Moramo biti pozicionirani na određenom projektu, recimo ApiGateway
+
+cd "/putanjaProjekta"
+docker build -t milospejic001/api-gateway:1.0 .   (Ovo je komanda za buildovanje docker image-a)
+
+Ovako za svaki od projekata koje imamo
+
+Klikom na run kod image pokrećemo kontejner, postavimo naziv,
+ recimo currency-exhange, zatim postavimo port(identičan port-u koji je prikazan sa leve strane --bindovanje)
+ 
+ 
+Konacan rezultat dokerizacije je fajl docker-compose.yaml, koji sadrzi informacije o svim konternerima koji bi trebalo da se pokrenu.
+Svaki kontejner ima image koji se preuzima sa DockerHub-a, sledeci je mem_limit koji mi određujemo sami (ako imamo 8gb ram ne ici preko 400m), ports,
+network (svi moraju biti na istoj mrezi), depend-on (koji kontejneri moraju prvi da se pokrenu), enviroment (mora kod svakog kontejnera biti isti)
+On se pokrece tako sto se centriramo u folder u kom se nalazi i pokrenemo komandu
+docker-compose up
+
+
+Ovako push-ujemo image na DockerHub:
+
+docker login -u milospejic001
+unesemo lozinku
+
+Login Succeeded
+Zatim komanda docker push milospejic001/api-gateway:1.0 
+
+Image se nalazi na DockerHub u okviru Repositories

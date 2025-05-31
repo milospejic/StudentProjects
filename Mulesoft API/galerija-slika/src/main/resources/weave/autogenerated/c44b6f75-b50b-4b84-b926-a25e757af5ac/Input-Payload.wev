@@ -1,0 +1,8 @@
+%dw 2.0
+
+type auto_c44b6f75_b50b_4b84_b926_a25e757af5ac_Input_Payload = {
+  NazivPerioda: String, 
+  PeriodID?: Number, 
+  _?: Any
+}
+

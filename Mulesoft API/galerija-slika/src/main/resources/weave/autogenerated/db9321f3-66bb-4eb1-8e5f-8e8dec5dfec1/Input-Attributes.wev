@@ -1,0 +1,23 @@
+%dw 2.0
+
+type auto_db9321f3_66bb_4eb1_8e5f_8e8dec5dfec1_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| ZaposleniID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+

@@ -1,0 +1,23 @@
+%dw 2.0
+
+type auto_9a16e7df_8b2a_4331_8d59_5b9b5e379597_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| KupacID: String |}, 
+  version: String, 
+  localAddress: String
+|}
+

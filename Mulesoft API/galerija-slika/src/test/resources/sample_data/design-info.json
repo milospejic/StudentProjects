@@ -1,0 +1,34 @@
+{
+  "sampleData": {
+    "30044c33-2143-4d16-881c-376d98482e60": {
+      "payload": "sample_data/list_java.dwl"
+    },
+    "d89f08a7-69a4-4464-9146-4d4fa76c5bae": {
+      "payload": "sample_data/list_java_1.dwl"
+    },
+    "048cf0e2-6f6b-427d-b87b-43befbd63a2e": {
+      "payload": "sample_data/list_java_2.dwl"
+    },
+    "559c97fe-862d-4d7a-8061-ddb90f77e07f": {
+      "payload": "sample_data/list_java_3.dwl"
+    },
+    "92e8ce81-c3db-49dd-8434-8a01f8b89747": {
+      "payload": "sample_data/list_java_4.dwl"
+    },
+    "345600f7-2b6d-43ba-bf2f-67173b69c128": {
+      "payload": "sample_data/list_java_5.dwl"
+    },
+    "db24943e-89c4-45be-a6b1-2f136eeb4359": {
+      "payload": "sample_data/list_java_6.dwl"
+    },
+    "aff55275-7f6d-4f7a-bfc7-7ece67bec1be": {
+      "payload": "sample_data/list_java_7.dwl"
+    },
+    "189ad7f7-f994-4913-8698-a135d7df9edb": {
+      "payload": "sample_data/list_java_8.dwl"
+    },
+    "b75f71bb-9373-46d7-8b41-db59b47053fd": {
+      "payload": "sample_data/java.dwl"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+  <row>
+    <NarudzbinaID>1</NarudzbinaID>
+    <Datum>2022-11-07</Datum>
+    <Primarnost>A</Primarnost>
+    <Kolicina>97</Kolicina>
+    <ZaposleniID>1</ZaposleniID>
+    <KupacID>2</KupacID>
+  </row>
+  <row>
+    <NarudzbinaID>2</NarudzbinaID>
+    <Datum>2022-11-08</Datum>
+    <Primarnost>B</Primarnost>
+    <Kolicina>99</Kolicina>
+    <ZaposleniID>1</ZaposleniID>
+    <KupacID>3</KupacID>
+  </row>
+</root>

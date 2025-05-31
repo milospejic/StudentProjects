@@ -1,0 +1,8 @@
+%dw 2.0
+
+type auto_ceba1620_4736_4b19_87af_8e160ac5fd3f_Input_Payload = {
+  TipSlikeID?: Number, 
+  NazivTipaSlike: String, 
+  _?: Any
+}
+
