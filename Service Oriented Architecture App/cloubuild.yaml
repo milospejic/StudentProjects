@@ -1,69 +1,63 @@
 steps:
-- name: 'gcr.io/cloud-builders/mvn'
-  id: 'Build All Services'
-  args: ['clean', 'install', '-DskipTests']
-  entrypoint: 'mvn'
-  dir: 'Service Oriented Architecture App'
-
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Build Naming Server Image'
   waitFor: ['Build All Services']
   args: ['build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/naming-server:$COMMIT_SHA', '.']
-  dir: 'NamingServer'
+  dir: 'Service Oriented Architecture App/NamingServer'
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Build API Gateway Image'
   waitFor: ['Build All Services']
   args: ['build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/api-gateway:$COMMIT_SHA', '.']
-  dir: 'ApiGateway/ApiGateway'
+  dir: 'Service Oriented Architecture App/ApiGateway/ApiGateway'
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Build Users Service Image'
   waitFor: ['Build All Services']
   args: ['build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/users-service:$COMMIT_SHA', '.']
-  dir: 'UsersService'
+  dir: 'Service Oriented Architecture App/UsersService'
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Build Bank Account Image'
   waitFor: ['Build All Services']
   args: ['build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/bank-account:$COMMIT_SHA', '.']
-  dir: 'BankAccount'
+  dir: 'Service Oriented Architecture App/BankAccount'
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Build Crypto Wallet Image'
   waitFor: ['Build All Services']
   args: ['build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/crypto-wallet:$COMMIT_SHA', '.']
-  dir: 'CryptoWallet'
+  dir: 'Service Oriented Architecture App/CryptoWallet'
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Build Currency Exchange Image'
   waitFor: ['Build All Services']
   args: ['build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/currency-exchange:$COMMIT_SHA', '.']
-  dir: 'CurrencyExchange'
+  dir: 'Service Oriented Architecture App/CurrencyExchange'
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Build Crypto Exchange Image'
   waitFor: ['Build All Services']
   args: ['build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/crypto-exchange:$COMMIT_SHA', '.']
-  dir: 'CryptoExchange'
+  dir: 'Service Oriented Architecture App/CryptoExchange'
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Build Currency Conversion Image'
   waitFor: ['Build All Services']
   args: ['build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/currency-conversion:$COMMIT_SHA', '.']
-  dir: 'CurrencyConversion'
+  dir: 'Service Oriented Architecture App/CurrencyConversion'
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Build Crypto Conversion Image'
   waitFor: ['Build All Services']
   args: ['build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/crypto-conversion:$COMMIT_SHA', '.']
-  dir: 'CryptoConversion'
+  dir: 'Service Oriented Architecture App/CryptoConversion'
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Build Trade Service Image'
   waitFor: ['Build All Services']
   args: ['build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/trade-service:$COMMIT_SHA', '.']
-  dir: 'TradeService'
+  dir: 'Service Oriented Architecture App/TradeService'
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Push Naming Server Image'
@@ -134,7 +128,7 @@ steps:
   - |
     gcloud container clusters get-credentials ${_GKE_CLUSTER} --zone ${_GKE_ZONE} --project=${PROJECT_ID}
     
-    cd kubernetes/
+    cd 'Service Oriented Architecture App/kubernetes/'
     kustomize edit set image exchange-app/naming-server=${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/naming-server:$COMMIT_SHA
     kustomize edit set image exchange-app/api-gateway=${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/api-gateway:$COMMIT_SHA
     kustomize edit set image exchange-app/users-service=${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/users-service:$COMMIT_SHA
