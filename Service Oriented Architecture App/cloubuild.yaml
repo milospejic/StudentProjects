@@ -3,6 +3,7 @@ steps:
   id: 'Build All Services'
   args: ['clean', 'install', '-DskipTests']
   entrypoint: 'mvn'
+  dir: 'Service Oriented Architecture App'
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Build Naming Server Image'
