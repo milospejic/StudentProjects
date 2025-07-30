@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crypto-wallet-deployment
+  labels:
+    app: crypto-wallet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crypto-wallet
+  template:
+    metadata:
+      labels:
+        app: crypto-wallet
+    spec:
+      containers:
+      - name: crypto-wallet
+        image: exchange-app/crypto-wallet
+        ports:
+        - containerPort: 8300
+        env:
+        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: crypto-wallet-service
+spec:
+  selector:
+    app: crypto-wallet
+  ports:
+  - protocol: TCP
+    port: 8300
+    targetPort: 8300

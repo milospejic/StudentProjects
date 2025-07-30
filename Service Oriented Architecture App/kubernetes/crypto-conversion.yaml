@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trade-service-deployment
+  labels:
+    app: trade-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trade-service
+  template:
+    metadata:
+      labels:
+        app: trade-service
+    spec:
+      containers:
+      - name: trade-service
+        image: exchange-app/trade-service
+        ports:
+        - containerPort: 8600
+        env:
+        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trade-service-service
+spec:
+  selector:
+    app: trade-service
+  ports:
+  - protocol: TCP
+    port: 8600
+    targetPort: 8600

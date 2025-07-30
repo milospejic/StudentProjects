@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: currency-exchange-deployment
+  labels:
+    app: currency-exchange
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: currency-exchange
+  template:
+    metadata:
+      labels:
+        app: currency-exchange
+    spec:
+      containers:
+      - name: currency-exchange
+        image: exchange-app/currency-exchange
+        ports:
+        - containerPort: 8000
+        env:
+        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: currency-exchange-service
+spec:
+  selector:
+    app: currency-exchange
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000

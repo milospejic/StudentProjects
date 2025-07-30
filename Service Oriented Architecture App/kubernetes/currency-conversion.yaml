@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: currency-conversion-deployment
+  labels:
+    app: currency-conversion
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: currency-conversion
+  template:
+    metadata:
+      labels:
+        app: currency-conversion
+    spec:
+      containers:
+      - name: currency-conversion
+        image: exchange-app/currency-conversion
+        ports:
+        - containerPort: 8100
+        env:
+        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: currency-conversion-service
+spec:
+  selector:
+    app: currency-conversion
+  ports:
+  - protocol: TCP
+    port: 8100
+    targetPort: 8100

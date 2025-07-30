@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crypto-exchange-deployment
+  labels:
+    app: crypto-exchange
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crypto-exchange
+  template:
+    metadata:
+      labels:
+        app: crypto-exchange
+    spec:
+      containers:
+      - name: crypto-exchange
+        image: exchange-app/crypto-exchange
+        ports:
+        - containerPort: 8400
+        env:
+        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: crypto-exchange-service
+spec:
+  selector:
+    app: crypto-exchange
+  ports:
+  - protocol: TCP
+    port: 8400
+    targetPort: 8400

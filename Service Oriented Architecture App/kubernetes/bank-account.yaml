@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bank-account-deployment
+  labels:
+    app: bank-account
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bank-account
+  template:
+    metadata:
+      labels:
+        app: bank-account
+    spec:
+      containers:
+      - name: bank-account
+        image: exchange-app/bank-account
+        ports:
+        - containerPort: 8200
+        env:
+        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bank-account-service
+spec:
+  selector:
+    app: bank-account
+  ports:
+  - protocol: TCP
+    port: 8200
+    targetPort: 8200
