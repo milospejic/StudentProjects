@@ -1,5 +1,15 @@
 steps:
-  # Build JARs with Maven
+  # Build and install the shared dependencies first
+  - name: 'gcr.io/cloud-builders/mvn'
+    id: 'Install API Jar'
+    entrypoint: 'mvn'
+    args: [ 'install', '-f', 'Service Oriented Architecture App/API/pom.xml' ]
+  - name: 'gcr.io/cloud-builders/mvn'
+    id: 'Install Util Jar'
+    entrypoint: 'mvn'
+    args: [ 'install', '-f', 'Service Oriented Architecture App/Util/pom.xml' ]
+
+  # Build the rest of the JARs, waiting for dependencies where necessary
   - name: 'gcr.io/cloud-builders/mvn'
     id: 'Build Naming Server Jar'
     entrypoint: 'mvn'
@@ -7,26 +17,32 @@ steps:
   - name: 'gcr.io/cloud-builders/mvn'
     id: 'Build API Gateway Jar'
     entrypoint: 'mvn'
+    waitFor: [ 'Install API Jar' ] # Depends on API
     args: [ 'package', '-f', 'Service Oriented Architecture App/ApiGateway/ApiGateway/pom.xml' ]
   - name: 'gcr.io/cloud-builders/mvn'
     id: 'Build Users Service Jar'
     entrypoint: 'mvn'
+    waitFor: [ 'Install Util Jar' ] # Depends on Util
     args: [ 'package', '-f', 'Service Oriented Architecture App/UsersService/pom.xml' ]
   - name: 'gcr.io/cloud-builders/mvn'
     id: 'Build Bank Account Jar'
     entrypoint: 'mvn'
+    waitFor: [ 'Install Util Jar' ] # Depends on Util
     args: [ 'package', '-f', 'Service Oriented Architecture App/BankAccount/pom.xml' ]
   - name: 'gcr.io/cloud-builders/mvn'
     id: 'Build Crypto Wallet Jar'
     entrypoint: 'mvn'
+    waitFor: [ 'Install Util Jar' ] # Depends on Util
     args: [ 'package', '-f', 'Service Oriented Architecture App/CryptoWallet/pom.xml' ]
   - name: 'gcr.io/cloud-builders/mvn'
     id: 'Build Currency Exchange Jar'
     entrypoint: 'mvn'
+    waitFor: [ 'Install Util Jar' ] # Depends on Util
     args: [ 'package', '-f', 'Service Oriented Architecture App/CurrencyExchange/pom.xml' ]
   - name: 'gcr.io/cloud-builders/mvn'
     id: 'Build Crypto Exchange Jar'
     entrypoint: 'mvn'
+    waitFor: [ 'Install Util Jar' ] # Depends on Util
     args: [ 'package', '-f', 'Service Oriented Architecture App/CryptoExchange/pom.xml' ]
   - name: 'gcr.io/cloud-builders/mvn'
     id: 'Build Currency Conversion Jar'
@@ -39,6 +55,7 @@ steps:
   - name: 'gcr.io/cloud-builders/mvn'
     id: 'Build Trade Service Jar'
     entrypoint: 'mvn'
+    waitFor: [ 'Install Util Jar' ] # Depends on Util
     args: [ 'package', '-f', 'Service Oriented Architecture App/TradeService/pom.xml' ]
 
   # Build Docker images
