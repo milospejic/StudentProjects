@@ -16,14 +16,19 @@ spec:
     spec:
       containers:
       - name: naming-server
-        image: exchange-app/naming-server
+        image: exchange-app/naming-server 
         ports:
         - containerPort: 8761
+        envFrom:
+        - configMapRef:
+            name: eureka-cm
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: naming-server-service
+  labels:
+    app: naming-server
 spec:
   selector:
     app: naming-server

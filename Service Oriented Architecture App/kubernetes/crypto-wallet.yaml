@@ -19,12 +19,9 @@ spec:
         image: exchange-app/crypto-wallet
         ports:
         - containerPort: 8300
-        env:
-        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-          valueFrom:
-            configMapKeyRef:
-              name: eureka-cm
-              key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+        envFrom:
+        - configMapRef:
+            name: eureka-cm
 ---
 apiVersion: v1
 kind: Service

@@ -4,3 +4,6 @@ metadata:
   name: eureka-cm
 data:
   EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://naming-server-service:8761/eureka
+  
+  EUREKA_CLIENT_REGISTER_WITH_EUREKA: "false"
+  EUREKA_CLIENT_FETCH_REGISTRY: "false"

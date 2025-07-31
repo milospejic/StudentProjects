@@ -19,13 +19,9 @@ spec:
         image: exchange-app/bank-account
         ports:
         - containerPort: 8200
-        env:
-        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-          valueFrom:
-            configMapKeyRef:
-              name: eureka-cm
-              key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
----
+        envFrom:
+        - configMapRef:
+            name: eureka-cm
 apiVersion: v1
 kind: Service
 metadata:
