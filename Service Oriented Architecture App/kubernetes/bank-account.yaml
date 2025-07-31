@@ -22,6 +22,7 @@ spec:
         envFrom:
         - configMapRef:
             name: eureka-cm
+---
 apiVersion: v1
 kind: Service
 metadata:
