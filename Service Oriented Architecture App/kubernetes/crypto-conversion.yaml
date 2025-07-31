@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: trade-service-deployment
+  name: crypto-conversion-deployment
   labels:
-    app: trade-service
+    app: crypto-conversion
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: trade-service
+      app: crypto-conversion
   template:
     metadata:
       labels:
-        app: trade-service
+        app: crypto-conversion
     spec:
       containers:
-      - name: trade-service
-        image: exchange-app/trade-service
+      - name: crypto-conversion
+        image: exchange-app/crypto-conversion
         ports:
-        - containerPort: 8600
+        - containerPort: 8500
         env:
         - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
           valueFrom:
@@ -29,11 +29,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: trade-service-service
+  name: crypto-conversion-service
 spec:
   selector:
-    app: trade-service
+    app: crypto-conversion
   ports:
   - protocol: TCP
-    port: 8600
-    targetPort: 8600
+    port: 8500
+    targetPort: 8500
