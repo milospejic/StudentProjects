@@ -3,14 +3,14 @@ steps:
   - name: 'gcr.io/cloud-builders/mvn'
     id: 'Install API Jar'
     entrypoint: 'mvn'
-    args: [ 'install', '-f', 'Service Oriented Architecture App/API/pom.xml' ]
+    args: [ 'install', '-DskipTests', '-f', 'Service Oriented Architecture App/API/pom.xml' ]
     volumes:
       - name: 'm2'
         path: '/root/.m2'
   - name: 'gcr.io/cloud-builders/mvn'
     id: 'Install Util Jar'
     entrypoint: 'mvn'
-    args: [ 'install', '-f', 'Service Oriented Architecture App/Util/pom.xml' ]
+    args: [ 'install', '-DskipTests', '-f', 'Service Oriented Architecture App/Util/pom.xml' ]
     volumes:
       - name: 'm2'
         path: '/root/.m2'
@@ -19,7 +19,7 @@ steps:
   - name: 'gcr.io/cloud-builders/mvn'
     id: 'Build Naming Server Jar'
     entrypoint: 'mvn'
-    args: [ 'package', '-f', 'Service Oriented Architecture App/NamingServer/pom.xml' ]
+    args: [ 'package', '-DskipTests', '-f', 'Service Oriented Architecture App/NamingServer/pom.xml' ]
     volumes:
       - name: 'm2'
         path: '/root/.m2'
@@ -27,7 +27,7 @@ steps:
     id: 'Build API Gateway Jar'
     entrypoint: 'mvn'
     waitFor: [ 'Install API Jar' ] # Depends on API
-    args: [ 'package', '-f', 'Service Oriented Architecture App/ApiGateway/ApiGateway/pom.xml' ]
+    args: [ 'package', '-DskipTests', '-f', 'Service Oriented Architecture App/ApiGateway/ApiGateway/pom.xml' ]
     volumes:
       - name: 'm2'
         path: '/root/.m2'
@@ -35,7 +35,7 @@ steps:
     id: 'Build Users Service Jar'
     entrypoint: 'mvn'
     waitFor: [ 'Install Util Jar' ] # Depends on Util
-    args: [ 'package', '-f', 'Service Oriented Architecture App/UsersService/pom.xml' ]
+    args: [ 'package', '-DskipTests', '-f', 'Service Oriented Architecture App/UsersService/pom.xml' ]
     volumes:
       - name: 'm2'
         path: '/root/.m2'
@@ -43,7 +43,7 @@ steps:
     id: 'Build Bank Account Jar'
     entrypoint: 'mvn'
     waitFor: [ 'Install Util Jar' ] # Depends on Util
-    args: [ 'package', '-f', 'Service Oriented Architecture App/BankAccount/pom.xml' ]
+    args: [ 'package', '-DskipTests', '-f', 'Service Oriented Architecture App/BankAccount/pom.xml' ]
     volumes:
       - name: 'm2'
         path: '/root/.m2'
@@ -51,7 +51,7 @@ steps:
     id: 'Build Crypto Wallet Jar'
     entrypoint: 'mvn'
     waitFor: [ 'Install Util Jar' ] # Depends on Util
-    args: [ 'package', '-f', 'Service Oriented Architecture App/CryptoWallet/pom.xml' ]
+    args: [ 'package', '-DskipTests', '-f', 'Service Oriented Architecture App/CryptoWallet/pom.xml' ]
     volumes:
       - name: 'm2'
         path: '/root/.m2'
@@ -59,7 +59,7 @@ steps:
     id: 'Build Currency Exchange Jar'
     entrypoint: 'mvn'
     waitFor: [ 'Install Util Jar' ] # Depends on Util
-    args: [ 'package', '-f', 'Service Oriented Architecture App/CurrencyExchange/pom.xml' ]
+    args: [ 'package', '-DskipTests', '-f', 'Service Oriented Architecture App/CurrencyExchange/pom.xml' ]
     volumes:
       - name: 'm2'
         path: '/root/.m2'
@@ -67,21 +67,21 @@ steps:
     id: 'Build Crypto Exchange Jar'
     entrypoint: 'mvn'
     waitFor: [ 'Install Util Jar' ] # Depends on Util
-    args: [ 'package', '-f', 'Service Oriented Architecture App/CryptoExchange/pom.xml' ]
+    args: [ 'package', '-DskipTests', '-f', 'Service Oriented Architecture App/CryptoExchange/pom.xml' ]
     volumes:
       - name: 'm2'
         path: '/root/.m2'
   - name: 'gcr.io/cloud-builders/mvn'
     id: 'Build Currency Conversion Jar'
     entrypoint: 'mvn'
-    args: [ 'package', '-f', 'Service Oriented Architecture App/CurrencyConversion/pom.xml' ]
+    args: [ 'package', '-DskipTests', '-f', 'Service Oriented Architecture App/CurrencyConversion/pom.xml' ]
     volumes:
       - name: 'm2'
         path: '/root/.m2'
   - name: 'gcr.io/cloud-builders/mvn'
     id: 'Build Crypto Conversion Jar'
     entrypoint: 'mvn'
-    args: [ 'package', '-f', 'Service Oriented Architecture App/CryptoConversion/pom.xml' ]
+    args: [ 'package', '-DskipTests', '-f', 'Service Oriented Architecture App/CryptoConversion/pom.xml' ]
     volumes:
       - name: 'm2'
         path: '/root/.m2'
@@ -89,7 +89,7 @@ steps:
     id: 'Build Trade Service Jar'
     entrypoint: 'mvn'
     waitFor: [ 'Install Util Jar' ] # Depends on Util
-    args: [ 'package', '-f', 'Service Oriented Architecture App/TradeService/pom.xml' ]
+    args: [ 'package', '-DskipTests', '-f', 'Service Oriented Architecture App/TradeService/pom.xml' ]
     volumes:
       - name: 'm2'
         path: '/root/.m2'
