@@ -1,4 +1,5 @@
 steps:
+  # Build JARs with Maven
   - name: 'gcr.io/cloud-builders/mvn'
     id: 'Build Naming Server Jar'
     entrypoint: 'mvn'
@@ -44,95 +45,135 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Build Naming Server Image'
     waitFor: [ 'Build Naming Server Jar' ]
-    args: [ 'build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/naming-server:$COMMIT_SHA', '.' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker build -t "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/naming-server:$COMMIT_SHA" .' ]
     dir: 'Service Oriented Architecture App/NamingServer'
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Build API Gateway Image'
     waitFor: [ 'Build API Gateway Jar' ]
-    args: [ 'build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/api-gateway:$COMMIT_SHA', '.' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker build -t "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/api-gateway:$COMMIT_SHA" .' ]
     dir: 'Service Oriented Architecture App/ApiGateway/ApiGateway'
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Build Users Service Image'
     waitFor: [ 'Build Users Service Jar' ]
-    args: [ 'build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/users-service:$COMMIT_SHA', '.' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker build -t "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/users-service:$COMMIT_SHA" .' ]
     dir: 'Service Oriented Architecture App/UsersService'
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Build Bank Account Image'
     waitFor: [ 'Build Bank Account Jar' ]
-    args: [ 'build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/bank-account:$COMMIT_SHA', '.' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker build -t "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/bank-account:$COMMIT_SHA" .' ]
     dir: 'Service Oriented Architecture App/BankAccount'
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Build Crypto Wallet Image'
     waitFor: [ 'Build Crypto Wallet Jar' ]
-    args: [ 'build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/crypto-wallet:$COMMIT_SHA', '.' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker build -t "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/crypto-wallet:$COMMIT_SHA" .' ]
     dir: 'Service Oriented Architecture App/CryptoWallet'
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Build Currency Exchange Image'
     waitFor: [ 'Build Currency Exchange Jar' ]
-    args: [ 'build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/currency-exchange:$COMMIT_SHA', '.' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker build -t "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/currency-exchange:$COMMIT_SHA" .' ]
     dir: 'Service Oriented Architecture App/CurrencyExchange'
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Build Crypto Exchange Image'
     waitFor: [ 'Build Crypto Exchange Jar' ]
-    args: [ 'build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/crypto-exchange:$COMMIT_SHA', '.' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker build -t "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/crypto-exchange:$COMMIT_SHA" .' ]
     dir: 'Service Oriented Architecture App/CryptoExchange'
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Build Currency Conversion Image'
     waitFor: [ 'Build Currency Conversion Jar' ]
-    args: [ 'build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/currency-conversion:$COMMIT_SHA', '.' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker build -t "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/currency-conversion:$COMMIT_SHA" .' ]
     dir: 'Service Oriented Architecture App/CurrencyConversion'
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Build Crypto Conversion Service Image'
     waitFor: [ 'Build Crypto Conversion Jar' ]
-    args: [ 'build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/crypto-conversion:$COMMIT_SHA', '.' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker build -t "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/crypto-conversion:$COMMIT_SHA" .' ]
     dir: 'Service Oriented Architecture App/CryptoConversion'
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Build Trade Service Image'
     waitFor: [ 'Build Trade Service Jar' ]
-    args: [ 'build', '-t', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/trade-service:$COMMIT_SHA', '.' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker build -t "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/trade-service:$COMMIT_SHA" .' ]
     dir: 'Service Oriented Architecture App/TradeService'
 
   # Push Docker images
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Push Naming Server Image'
     waitFor: [ 'Build Naming Server Image' ]
-    args: [ 'push', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/naming-server:$COMMIT_SHA' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker push "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/naming-server:$COMMIT_SHA"' ]
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Push API Gateway Image'
     waitFor: [ 'Build API Gateway Image' ]
-    args: [ 'push', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/api-gateway:$COMMIT_SHA' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker push "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/api-gateway:$COMMIT_SHA"' ]
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Push Users Service Image'
     waitFor: [ 'Build Users Service Image' ]
-    args: [ 'push', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/users-service:$COMMIT_SHA' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker push "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/users-service:$COMMIT_SHA"' ]
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Push Bank Account Image'
     waitFor: [ 'Build Bank Account Image' ]
-    args: [ 'push', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/bank-account:$COMMIT_SHA' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker push "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/bank-account:$COMMIT_SHA"' ]
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Push Crypto Wallet Image'
     waitFor: [ 'Build Crypto Wallet Image' ]
-    args: [ 'push', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/crypto-wallet:$COMMIT_SHA' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker push "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/crypto-wallet:$COMMIT_SHA"' ]
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Push Currency Exchange Image'
     waitFor: [ 'Build Currency Exchange Image' ]
-    args: [ 'push', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/currency-exchange:$COMMIT_SHA' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker push "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/currency-exchange:$COMMIT_SHA"' ]
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Push Crypto Exchange Image'
     waitFor: [ 'Build Crypto Exchange Image' ]
-    args: [ 'push', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/crypto-exchange:$COMMIT_SHA' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker push "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/crypto-exchange:$COMMIT_SHA"' ]
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Push Currency Conversion Image'
     waitFor: [ 'Build Currency Conversion Image' ]
-    args: [ 'push', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/currency-conversion:$COMMIT_SHA' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker push "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/currency-conversion:$COMMIT_SHA"' ]
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Push Crypto Conversion Image'
     waitFor: [ 'Build Crypto Conversion Service Image' ]
-    args: [ 'push', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/crypto-conversion:$COMMIT_SHA' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker push "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/crypto-conversion:$COMMIT_SHA"' ]
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Push Trade Service Image'
     waitFor: [ 'Build Trade Service Image' ]
-    args: [ 'push', '${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/trade-service:$COMMIT_SHA' ]
+    entrypoint: 'bash'
+    secretEnv: ['_AR_HOST_SECRET', '_REPO_NAME_SECRET']
+    args: [ '-c', 'docker push "$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/trade-service:$COMMIT_SHA"' ]
 
   # Deploy to GKE
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -149,25 +190,35 @@ steps:
       - 'Push Crypto Conversion Image'
       - 'Push Trade Service Image'
     entrypoint: 'bash'
+    secretEnv: ['_GKE_CLUSTER_SECRET', '_GKE_ZONE_SECRET', '_AR_HOST_SECRET', '_REPO_NAME_SECRET']
     args:
       - '-c'
       - |
-        gcloud container clusters get-credentials ${_GKE_CLUSTER} --zone ${_GKE_ZONE} --project=${PROJECT_ID}
+        gcloud container clusters get-credentials "$$_GKE_CLUSTER_SECRET" --zone "$$_GKE_ZONE_SECRET" --project=$PROJECT_ID
         
         cd 'Service Oriented Architecture App/kubernetes/'
-        kustomize edit set image exchange-app/naming-server=${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/naming-server:$COMMIT_SHA
-        kustomize edit set image exchange-app/api-gateway=${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/api-gateway:$COMMIT_SHA
-        kustomize edit set image exchange-app/users-service=${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/users-service:$COMMIT_SHA
-        kustomize edit set image exchange-app/bank-account=${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/bank-account:$COMMIT_SHA
-        kustomize edit set image exchange-app/crypto-wallet=${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/crypto-wallet:$COMMIT_SHA
-        kustomize edit set image exchange-app/currency-exchange=${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/currency-exchange:$COMMIT_SHA
-        kustomize edit set image exchange-app/crypto-exchange=${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/crypto-exchange:$COMMIT_SHA
-        kustomize edit set image exchange-app/currency-conversion=${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/currency-conversion:$COMMIT_SHA
-        kustomize edit set image exchange-app/crypto-conversion=${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/crypto-conversion:$COMMIT_SHA
-        kustomize edit set image exchange-app/trade-service=${_AR_HOST}/${PROJECT_ID}/${_REPO_NAME}/trade-service:$COMMIT_SHA
+        kustomize edit set image exchange-app/naming-server=$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/naming-server:$COMMIT_SHA
+        kustomize edit set image exchange-app/api-gateway=$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/api-gateway:$COMMIT_SHA
+        kustomize edit set image exchange-app/users-service=$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/users-service:$COMMIT_SHA
+        kustomize edit set image exchange-app/bank-account=$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/bank-account:$COMMIT_SHA
+        kustomize edit set image exchange-app/crypto-wallet=$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/crypto-wallet:$COMMIT_SHA
+        kustomize edit set image exchange-app/currency-exchange=$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/currency-exchange:$COMMIT_SHA
+        kustomize edit set image exchange-app/crypto-exchange=$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/crypto-exchange:$COMMIT_SHA
+        kustomize edit set image exchange-app/currency-conversion=$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/currency-conversion:$COMMIT_SHA
+        kustomize edit set image exchange-app/crypto-conversion=$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/crypto-conversion:$COMMIT_SHA
+        kustomize edit set image exchange-app/trade-service=$$_AR_HOST_SECRET/$PROJECT_ID/$$_REPO_NAME_SECRET/trade-service:$COMMIT_SHA
 
         kubectl apply -k .
-
+availableSecrets:
+  secretManager:
+    - versionName: projects/$PROJECT_ID/secrets/_AR_HOST/versions/latest
+      env: '_AR_HOST_SECRET'
+    - versionName: projects/$PROJECT_ID/secrets/_REPO_NAME/versions/latest
+      env: '_REPO_NAME_SECRET'
+    - versionName: projects/$PROJECT_ID/secrets/_GKE_CLUSTER/versions/latest
+      env: '_GKE_CLUSTER_SECRET'
+    - versionName: projects/$PROJECT_ID/secrets/_GKE_ZONE/versions/latest
+      env: '_GKE_ZONE_SECRET'
 timeout: '1200s'
 
 options:
