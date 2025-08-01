@@ -21,7 +21,7 @@ public interface CryptoWalletService {
 	List<CryptoWalletDto> getCryptoWallets();
 
 	@GetMapping("/crypto-wallet/email/{email}")
-	public ResponseEntity<?> getCryptoWalletByEmail(@PathVariable("email") String email);
+	public ResponseEntity<?> getCryptoWalletByEmail(@PathVariable String email);
 	
 	@GetMapping("/crypto-wallet/myWallet")
 	public ResponseEntity<?> getMyCryptoWallet(@RequestHeader("Authorization") String authorization);
@@ -34,7 +34,7 @@ public interface CryptoWalletService {
 	public ResponseEntity<?> createCryptoWallet(@RequestBody CryptoWalletDto bankAccountDto); 
 	
 	@PostMapping("/crypto-wallet/create/{email}")
-	public ResponseEntity<?> createCryptoWallet(@PathVariable("email") String email);
+	public ResponseEntity<?> createCryptoWallet(@PathVariable String email);
 	
 	@PutMapping("/crypto-wallet/update")
 	public ResponseEntity<?> updateCryptoWallet(@RequestBody CryptoWalletDto updatedCryptoWallet);
@@ -51,8 +51,8 @@ public interface CryptoWalletService {
 	
 	
 	@DeleteMapping("/crypto-wallet/id/{id}")
-	public ResponseEntity<?> deleteCryptoWallet(@PathVariable("id") int id);
+	public ResponseEntity<?> deleteCryptoWallet(@PathVariable int id);
 	
 	@DeleteMapping("/crypto-wallet/delete/{email}")
-	public void deleteCryptoWallet(@PathVariable("email") String email);
+	public void deleteCryptoWallet(@PathVariable String email);
 }
