@@ -34,11 +34,6 @@ public class ApiGatewayAuthetication {
 	@Autowired
 	private RestTemplate restTemplate; // Injected bean
 
-	@Bean
-	@LoadBalanced // This makes the RestTemplate service-discovery-aware
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
    
 	@Bean
 	SecurityWebFilterChain filterChain(ServerHttpSecurity http) {
