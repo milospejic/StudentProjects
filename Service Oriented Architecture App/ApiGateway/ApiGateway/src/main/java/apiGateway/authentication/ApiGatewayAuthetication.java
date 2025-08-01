@@ -68,9 +68,9 @@ public class ApiGatewayAuthetication {
 	MapReactiveUserDetailsService userDetailsService(BCryptPasswordEncoder encoder) {
 		ResponseEntity<List<UserDto>> response =
 				//Obratiti paznju na URL prilikom dockerizacije
-				//Van dokera vrednost je users-service:8770/users
-				//U dokeru vrednost mora biti loaclhost:8770/users
-				new RestTemplate().exchange("http://localhost:8770/users", HttpMethod.GET,
+				//U dokera vrednost je users-service:8770/users
+				//van dokera vrednost mora biti loaclhost:8770/users
+				new RestTemplate().exchange("http://users-service:8770/users", HttpMethod.GET,
 						null, new ParameterizedTypeReference<List<UserDto>>() {});
 		
 		List<UserDetails> users = new ArrayList<UserDetails>();
