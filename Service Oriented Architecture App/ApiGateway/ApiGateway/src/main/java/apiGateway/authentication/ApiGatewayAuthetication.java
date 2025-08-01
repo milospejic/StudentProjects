@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ParameterizedTypeReference;
@@ -30,6 +31,14 @@ public class ApiGatewayAuthetication {
 	@Autowired
 	private  CustomAuthenticationHandler customAuthenticationHandler;
 
+	@Autowired
+	private RestTemplate restTemplate; // Injected bean
+
+	@Bean
+	@LoadBalanced // This makes the RestTemplate service-discovery-aware
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
    
 	@Bean
 	SecurityWebFilterChain filterChain(ServerHttpSecurity http) {
@@ -70,7 +79,7 @@ public class ApiGatewayAuthetication {
 				//Obratiti paznju na URL prilikom dockerizacije
 				//U dokera vrednost je users-service:8770/users
 				//van dokera vrednost mora biti loaclhost:8770/users
-				new RestTemplate().exchange("http://users-service:8770/users", HttpMethod.GET,
+				restTemplate.exchange("http://users-service:8770/users", HttpMethod.GET,
 						null, new ParameterizedTypeReference<List<UserDto>>() {});
 		
 		List<UserDetails> users = new ArrayList<UserDetails>();
