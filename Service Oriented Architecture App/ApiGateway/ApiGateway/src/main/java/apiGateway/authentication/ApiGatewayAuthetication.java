@@ -1,39 +1,49 @@
 package apiGateway.authentication;
 
-import api.dtos.UserDto;
+
+import java.security.Security;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
+import api.dtos.UserDto;
+import reactor.core.publisher.Mono;
 
 @Configuration
 @EnableWebFluxSecurity
 public class ApiGatewayAuthetication {
+	
+	@Autowired
+	private  CustomAuthenticationHandler customAuthenticationHandler;
 
-    @Autowired
-    private CustomAuthenticationHandler customAuthenticationHandler;
+	@Bean
+	public RestTemplate restTemplate() {
+	    return new RestTemplate();
+	}
 
-    @Autowired
-    private WebClient.Builder webClientBuilder;
-
-    @Bean
-    public SecurityWebFilterChain filterChain(ServerHttpSecurity http) {
-        http
-            .csrf(csrf -> csrf.disable())
-            .authorizeExchange(exchange -> exchange
+   
+	@Bean
+	SecurityWebFilterChain filterChain(ServerHttpSecurity http) {
+		http
+		.csrf(csrf -> csrf.disable())
+		.authorizeExchange(exchange -> exchange
                 .pathMatchers("/currency-exchange").permitAll()
                 .pathMatchers("/crypto-exchange").permitAll()
                 .pathMatchers("/currency-conversion").hasRole("USER")
@@ -59,34 +69,35 @@ public class ApiGatewayAuthetication {
             .httpBasic(Customizer.withDefaults());
 
         return http.build();
-    }
+	}
+	
+	
+	@Bean
+	ReactiveUserDetailsService userDetailsService(RestTemplate restTemplate, BCryptPasswordEncoder encoder) {
+	    return username -> {
+	        try {
+	            ResponseEntity<List<UserDto>> response =
+	                restTemplate.exchange("http://localhost:8770/users", HttpMethod.GET,
+	                    null, new ParameterizedTypeReference<List<UserDto>>() {});
+	            
+	            for (UserDto user : response.getBody()) {
+	                if (user.getEmail().equalsIgnoreCase(username)) {
+	                    return Mono.just(User.withUsername(user.getEmail())
+	                        .password(encoder.encode(user.getPassword()))
+	                        .roles(user.getRole())
+	                        .build());
+	                }
+	            }
+	            return Mono.error(new UsernameNotFoundException("User not found"));
+	        } catch (Exception ex) {
+	            return Mono.error(new IllegalStateException("Could not fetch user list", ex));
+	        }
+	    };
+	}
 
-    @Bean
-    public MapReactiveUserDetailsService userDetailsService(BCryptPasswordEncoder encoder) {
-        // CORRECT WAY to use WebClient
-        List<UserDto> userDtoList = webClientBuilder.build().get()
-                .uri("http://users-service:8770/users")
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<UserDto>>() {})
-                .block(); // .block() is acceptable here during application startup
+	@Bean
+	BCryptPasswordEncoder getEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-        List<UserDetails> users = new ArrayList<>();
-
-        if (userDtoList != null) {
-            for (UserDto user : userDtoList) {
-                users.add(
-                        User.withUsername(user.getEmail())
-                                .password(encoder.encode(user.getPassword()))
-                                .roles(user.getRole())
-                                .build());
-            }
-        }
-
-        return new MapReactiveUserDetailsService(users);
-    }
-
-    @Bean
-    public BCryptPasswordEncoder getEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }
