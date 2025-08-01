@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -14,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.http.HttpMethod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,21 +63,21 @@ public class ApiGatewayAuthetication {
 
     @Bean
     public MapReactiveUserDetailsService userDetailsService(BCryptPasswordEncoder encoder) {
-        // Use the reactive WebClient to get the user data
-        List<UserDto> userDtoList = webClientBuilder.build()
-                .get()
+        // CORRECT WAY to use WebClient
+        List<UserDto> userDtoList = webClientBuilder.build().get()
                 .uri("http://users-service:8770/users")
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<UserDto>>() {})
                 .block(); // .block() is acceptable here during application startup
 
         List<UserDetails> users = new ArrayList<>();
+
         if (userDtoList != null) {
-            for (UserDto userDto : userDtoList) {
+            for (UserDto user : userDtoList) {
                 users.add(
-                        User.withUsername(userDto.getEmail())
-                                .password(encoder.encode(userDto.getPassword()))
-                                .roles(userDto.getRole())
+                        User.withUsername(user.getEmail())
+                                .password(encoder.encode(user.getPassword()))
+                                .roles(user.getRole())
                                 .build());
             }
         }
