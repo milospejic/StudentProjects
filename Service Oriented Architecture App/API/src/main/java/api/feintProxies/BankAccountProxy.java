@@ -22,10 +22,10 @@ public interface BankAccountProxy {
 	public BigDecimal getAvailableAmount(@RequestParam(value= "email") String email, @RequestParam(value= "from") String from);
 	
 	@GetMapping("/bank-account/email/{email}")
-	public ResponseEntity<?> getBankAccountByEmail(@PathVariable String email);
+	public ResponseEntity<?> getBankAccountByEmail(@PathVariable("email") String email);
 	
 	@PostMapping("/bank-account/create/{email}")
-	public ResponseEntity<?> createBankAccount(@PathVariable String email);
+	public ResponseEntity<?> createBankAccount(@PathVariable("email") String email);
 	
 	@PutMapping("/bank-account")
     ResponseEntity<BankAccountDto> updateBankAccount(@RequestParam("from") String from, @RequestParam("to") String to, @RequestParam("quantity") BigDecimal quantity, @RequestParam("email") String email, @RequestParam("result") BigDecimal result); 
@@ -39,5 +39,5 @@ public interface BankAccountProxy {
 	
 	
 	@DeleteMapping("/bank-account/delete/{email}")
-	public void deleteBankAccount(@PathVariable String email);
+	public void deleteBankAccount(@PathVariable("email") String email);
 }

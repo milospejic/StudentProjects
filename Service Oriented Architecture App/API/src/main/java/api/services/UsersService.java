@@ -19,7 +19,7 @@ public interface UsersService {
 	List<UserDto> getUsers();
 	
 	@GetMapping("/users/email/{email}")
-	UserDto getUser(@PathVariable String email);
+	UserDto getUser(@PathVariable("email") String email);
 	
 	@PostMapping("/users")
 	ResponseEntity<?> createUser(@RequestBody UserDto dto, @RequestHeader("Authorization") String authorization);
@@ -28,6 +28,6 @@ public interface UsersService {
 	ResponseEntity<?> updateUser(@RequestBody UserDto dto, @RequestHeader("Authorization") String authorization);
 	
 	@DeleteMapping("/users/id/{id}")
-	ResponseEntity<?> deleteUser(@PathVariable int id);
+	ResponseEntity<?> deleteUser(@PathVariable("id") int id);
 
 }

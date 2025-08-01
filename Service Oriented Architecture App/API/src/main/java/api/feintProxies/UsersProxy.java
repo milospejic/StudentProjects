@@ -10,5 +10,5 @@ import api.dtos.UserDto;
 public interface UsersProxy {
 	
 	  @GetMapping("/users/email/{email}")
-	  public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email);
+	  public ResponseEntity<UserDto> getUserByEmail(@PathVariable("email") String email);
 }

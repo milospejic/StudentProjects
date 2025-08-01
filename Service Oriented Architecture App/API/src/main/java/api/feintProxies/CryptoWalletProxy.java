@@ -19,10 +19,10 @@ public interface CryptoWalletProxy {
 	public BigDecimal getAvailableAmount(@RequestParam(value= "email") String email, @RequestParam(value= "from") String from);
 	
 	@GetMapping("/crypto-wallet/email/{email}")
-	public ResponseEntity<?> getCryptoWalletByEmail(@PathVariable String email);
+	public ResponseEntity<?> getCryptoWalletByEmail(@PathVariable("email") String email);
 	
 	@PostMapping("/crypto-wallet/create/{email}")
-	public ResponseEntity<?> createCryptoWallet(@PathVariable String email);
+	public ResponseEntity<?> createCryptoWallet(@PathVariable("email") String email);
 	
 	@PutMapping("/crypto-wallet")
     ResponseEntity<CryptoWalletDto> updateCryptoWallet(@RequestParam("from") String from, @RequestParam("to") String to, @RequestParam("quantity") BigDecimal quantity, @RequestParam("email") String email, @RequestParam("result") BigDecimal result); 
@@ -35,5 +35,5 @@ public interface CryptoWalletProxy {
 	public void decreaseFunds(@RequestParam("from") String from, @RequestParam("quantity") BigDecimal quantity, @RequestParam("email") String email);
 	
 	@DeleteMapping("/crypto-wallet/delete/{email}")
-	public void deleteCryptoWallet(@PathVariable String email);
+	public void deleteCryptoWallet(@PathVariable("email") String email);
 }
