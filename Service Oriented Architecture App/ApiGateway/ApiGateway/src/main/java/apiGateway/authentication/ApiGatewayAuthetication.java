@@ -1,17 +1,10 @@
 package apiGateway.authentication;
 
-
-import java.security.Security;
-import java.util.ArrayList;
-import java.util.List;
-
+import api.dtos.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -20,26 +13,27 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.http.HttpMethod;
 
-import api.dtos.UserDto;
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 @EnableWebFluxSecurity
 public class ApiGatewayAuthetication {
-	
-	@Autowired
-	private  CustomAuthenticationHandler customAuthenticationHandler;
 
-	@Autowired
-	private RestTemplate restTemplate; // Injected bean
+    @Autowired
+    private CustomAuthenticationHandler customAuthenticationHandler;
 
-   
-	@Bean
-	SecurityWebFilterChain filterChain(ServerHttpSecurity http) {
-		http
-		.csrf(csrf -> csrf.disable())
-		.authorizeExchange(exchange -> exchange
+    @Autowired
+    private WebClient.Builder webClientBuilder;
+
+    @Bean
+    public SecurityWebFilterChain filterChain(ServerHttpSecurity http) {
+        http
+            .csrf(csrf -> csrf.disable())
+            .authorizeExchange(exchange -> exchange
                 .pathMatchers("/currency-exchange").permitAll()
                 .pathMatchers("/crypto-exchange").permitAll()
                 .pathMatchers("/currency-conversion").hasRole("USER")
@@ -65,34 +59,34 @@ public class ApiGatewayAuthetication {
             .httpBasic(Customizer.withDefaults());
 
         return http.build();
-	}
-	
-	
-	@Bean
-	MapReactiveUserDetailsService userDetailsService(BCryptPasswordEncoder encoder) {
-		ResponseEntity<List<UserDto>> response =
-				//Obratiti paznju na URL prilikom dockerizacije
-				//U dokera vrednost je users-service:8770/users
-				//van dokera vrednost mora biti loaclhost:8770/users
-				restTemplate.exchange("http://users-service:8770/users", HttpMethod.GET,
-						null, new ParameterizedTypeReference<List<UserDto>>() {});
-		
-		List<UserDetails> users = new ArrayList<UserDetails>();
-		for(UserDto user : response.getBody()) {
-			users.add(
-					User.withUsername(user.getEmail())
-					.password(encoder.encode(user.getPassword()))
-					.roles(user.getRole())
-					.build());
+    }
 
-		}
+    @Bean
+    public MapReactiveUserDetailsService userDetailsService(BCryptPasswordEncoder encoder) {
+        // Use the reactive WebClient to get the user data
+        List<UserDto> userDtoList = webClientBuilder.build()
+                .get()
+                .uri("http://users-service:8770/users")
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<UserDto>>() {})
+                .block(); // .block() is acceptable here during application startup
 
-		return new MapReactiveUserDetailsService(users);
+        List<UserDetails> users = new ArrayList<>();
+        if (userDtoList != null) {
+            for (UserDto userDto : userDtoList) {
+                users.add(
+                        User.withUsername(userDto.getEmail())
+                                .password(encoder.encode(userDto.getPassword()))
+                                .roles(userDto.getRole())
+                                .build());
+            }
+        }
 
-	}
-	@Bean
-	BCryptPasswordEncoder getEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+        return new MapReactiveUserDetailsService(users);
+    }
 
+    @Bean
+    public BCryptPasswordEncoder getEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
