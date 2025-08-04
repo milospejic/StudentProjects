@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - configmap.yaml
+  - eureka-cm.yaml 
   - naming-server.yaml
   - api-gateway.yaml
   - users-service.yaml

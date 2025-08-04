@@ -27,7 +27,7 @@ spec:
             periodSeconds: 5
         envFrom:
         - configMapRef:
-            name: eureka-cm
+            name: eureka-server-cm
 ---
 apiVersion: v1
 kind: Service
