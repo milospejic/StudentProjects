@@ -77,7 +77,7 @@ public class ApiGatewayAuthetication {
 	    return username -> {
 	        try {
 	            ResponseEntity<List<UserDto>> response =
-	                restTemplate.exchange("http://localhost:8770/users", HttpMethod.GET,
+	                restTemplate.exchange("http://users-service:8770/users", HttpMethod.GET,
 	                    null, new ParameterizedTypeReference<List<UserDto>>() {});
 	            
 	            for (UserDto user : response.getBody()) {
