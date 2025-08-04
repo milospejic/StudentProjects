@@ -19,6 +19,12 @@ spec:
         image: exchange-app/naming-server 
         ports:
         - containerPort: 8761
+        readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8761
+            initialDelaySeconds: 10
+            periodSeconds: 5
         envFrom:
         - configMapRef:
             name: eureka-cm

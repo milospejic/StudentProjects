@@ -14,6 +14,10 @@ spec:
       labels:
         app: bank-account
     spec:
+      initContainers:
+        - name: wait-for-eureka
+          image: busybox
+          command: ['sh', '-c', 'until nc -z naming-server-service 8761; do echo waiting for eureka...; sleep 5; done']
       containers:
       - name: bank-account
         image: exchange-app/bank-account
